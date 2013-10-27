@@ -1,14 +1,20 @@
 package org.saltations.controller;
 
+import com.sun.scenario.animation.SplineInterpolator;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.Data;
 
@@ -48,11 +54,34 @@ public class MainApp extends Application {
         menuBar.getMenus().addAll(menuFile, menuImport, menuExport);
         
         root.setTop(menuBar);
+        
+        /*
+         * Center Body
+         */
+		
+        SplitPane centerSplit = new SplitPane();
+        
+		VBox vbox = new VBox();
+
+		ChoiceBox choiceBox = new ChoiceBox<String>();
+
+		vbox.getChildren().add(choiceBox);
+		vbox.autosize();
+		
+		TreeView<String> actionsAndDisplays = new TreeView<String>();
+		actionsAndDisplays.autosize();
+		vbox.getChildren().add(actionsAndDisplays);
+		
 		
 		HBox hbox = new HBox();
-		hbox.getChildren().add(btn);
 		
-		root.setCenter(hbox);
+		centerSplit.getItems().addAll(vbox, hbox);
+		
+		root.setCenter(centerSplit);
+
+		/*
+		 * Activate.
+		 */
 		
 		primaryStage.setScene(new Scene(root, 300, 250));
 		primaryStage.show();
