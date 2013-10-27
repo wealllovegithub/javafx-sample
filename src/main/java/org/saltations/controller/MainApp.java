@@ -1,6 +1,6 @@
 package org.saltations.controller;
 
-import java.util.Arrays;
+import java.io.File;
 import java.util.List;
 
 import javafx.application.Application;
@@ -19,16 +19,45 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import org.saltations.Happenings;
 
+import com.db4o.Db4oEmbedded;
+import com.db4o.ObjectContainer;
+import com.db4o.config.EmbeddedConfiguration;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import com.typesafe.config.ConfigValue;
 
 @Data
+@Slf4j
 public class MainApp extends Application {
+	
+	/**
+	 * Load configuration
+	 */
+	
+	private Config conf = ConfigFactory.load();
+	
+	/**
+	 * Data Store for Db4O
+	 */
 
+	private ObjectContainer objStore = null;
+
+	public MainApp()
+	{
+		String fileName = conf.getString("app.datastore.location");
+				
+		EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
+		config.common().activationDepth(18);
+		config.common().updateDepth(18);
+		
+		File dbFile = new File(fileName);
+		
+		objStore = Db4oEmbedded.openFile(config,dbFile.getAbsolutePath());
+	}
+	
 	@Override
 	public void start(Stage primaryStage) {
 		
@@ -144,8 +173,6 @@ public class MainApp extends Application {
 		 * Read the config into the memory 
 		 */
 		
-		Config conf = ConfigFactory.load();
-		
 		TreeItem<String> treeRoot = new TreeItem<String>("Dashboard");	
 		
 		List<String>  axns = conf.getStringList("app.happenings.WORK_DAY_I.axns");
@@ -178,6 +205,7 @@ public class MainApp extends Application {
 	}
 
 	public static void main(String[] args) {
+
 		launch(args);
 	}
 }
