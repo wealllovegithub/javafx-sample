@@ -1,5 +1,8 @@
 package org.saltations.controller;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,6 +12,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -17,6 +21,10 @@ import javafx.stage.Stage;
 import lombok.Data;
 
 import org.saltations.Happenings;
+
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import com.typesafe.config.ConfigValue;
 
 @Data
 public class MainApp extends Application {
@@ -46,12 +54,7 @@ public class MainApp extends Application {
 		 * Menu Bar
 		 */
 		
-		MenuBar menuBar = new MenuBar();
-        Menu menuFile = new Menu("File");
-        Menu menuImport = new Menu("Import");
-        Menu menuExport = new Menu("View");
-
-        menuBar.getMenus().addAll(menuFile, menuImport, menuExport);
+		MenuBar menuBar = genMenuBar();
         
         root.setTop(menuBar);
         
@@ -59,9 +62,50 @@ public class MainApp extends Application {
          * Center Body
          */
 		
-        SplitPane centerSplit = new SplitPane();
+        SplitPane centerSplit = genMainSplit();
+		
+		root.setCenter(centerSplit);
+
+		/*
+		 * Activate.
+		 */
+		
+		primaryStage.setScene(new Scene(root, 300, 250));
+		primaryStage.show();
+	}
+
+	/**
+	 * @return
+	 */
+	private MenuBar genMenuBar() {
+		MenuBar menuBar = new MenuBar();
+        Menu menuFile = new Menu("File");
+        Menu menuImport = new Menu("Import");
+        Menu menuExport = new Menu("View");
+
+        menuBar.getMenus().addAll(menuFile, menuImport, menuExport);
+		return menuBar;
+	}
+
+	/**
+	 * @return
+	 */
+	private SplitPane genMainSplit() {
+		SplitPane centerSplit = new SplitPane();
         
-		VBox vbox = new VBox();
+		VBox lhs = genLHS();
+		
+		HBox rhs = new HBox();
+		
+		centerSplit.getItems().addAll(lhs, rhs);
+		return centerSplit;
+	}
+
+	/**
+	 * @return
+	 */
+	private VBox genLHS() {
+		VBox lhs = new VBox();
 
 		ChoiceBox<Happenings> choiceBox = new ChoiceBox<Happenings>();
 		choiceBox.getItems().addAll(
@@ -93,26 +137,44 @@ public class MainApp extends Application {
 		choiceBox.getSelectionModel().selectFirst();
 		choiceBox.autosize();
 
-		vbox.getChildren().add(choiceBox);
-		vbox.autosize();
+		lhs.getChildren().add(choiceBox);
+		lhs.autosize();
 		
-		TreeView<String> actionsAndDisplays = new TreeView<String>();
-		actionsAndDisplays.autosize();
-		vbox.getChildren().add(actionsAndDisplays);
-		
-		
-		HBox hbox = new HBox();
-		
-		centerSplit.getItems().addAll(vbox, hbox);
-		
-		root.setCenter(centerSplit);
-
 		/*
-		 * Activate.
+		 * Read the config into the memory 
 		 */
 		
-		primaryStage.setScene(new Scene(root, 300, 250));
-		primaryStage.show();
+		Config conf = ConfigFactory.load();
+		
+		TreeItem<String> treeRoot = new TreeItem<String>("Dashboard");	
+		
+		List<String>  axns = conf.getStringList("app.happenings.WORK_DAY_I.axns");
+		TreeItem<String> axnItem = new TreeItem<String>("Actions");
+		
+		for (String axn : axns) {
+	        axnItem.getChildren().add(new TreeItem<String>(axn));
+		}
+
+		treeRoot.getChildren().add(axnItem);
+		
+		List<String>  displays = conf.getStringList("app.happenings.WORK_DAY_I.displays");
+		TreeItem<String> displayItem = new TreeItem<String>("Displays");
+		
+		for (String display : displays) {
+	        displayItem.getChildren().add(new TreeItem<String>(display));
+		}
+
+		treeRoot.getChildren().add(displayItem);
+ 
+        TreeView<String> actionsAndDisplays = new TreeView<String>();
+        actionsAndDisplays.setShowRoot(true);
+        actionsAndDisplays.setRoot(treeRoot);
+        treeRoot.setExpanded(true);
+		
+		
+		actionsAndDisplays.autosize();
+		lhs.getChildren().add(actionsAndDisplays);
+		return lhs;
 	}
 
 	public static void main(String[] args) {
