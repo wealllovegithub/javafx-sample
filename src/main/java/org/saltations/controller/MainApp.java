@@ -1,54 +1,45 @@
 package org.saltations.controller;
 
 import javafx.application.Application;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import lombok.Data;
 
+@Data
 public class MainApp extends Application {
-  
-  private Stage primaryStage;
-  private BorderPane rootLayout;
-  
-  @Override
-  public void start(Stage primaryStage) {
-      this.primaryStage = primaryStage;
-      this.primaryStage.setTitle("SELP Tracker");
-      
 
-      
-      
-      try {
-          // Load the root layout from the fxml file
-          FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/tracker-root.fxml"));
-          rootLayout = (BorderPane) loader.load();
-          Scene scene = new Scene(rootLayout);
-          scene.getStylesheets().add("tiwulfx.css");//load tiwulfx.css
-          primaryStage.setScene(scene);
-          primaryStage.show();
-      } catch (IOException e) {
-          // Exception gets thrown if the fxml file could not be loaded
-          e.printStackTrace();
-      }
+	@Override
+	public void start(Stage primaryStage) {
+		
+		primaryStage.setTitle("Possibility Tracker");
+		
+		Button btn = new Button();
+		btn.setText("Say 'Hello World'");
+		btn.setOnAction(new EventHandler<ActionEvent>() {
 
-  }
-  
-  /**
-  * Returns the main stage.
-  * @return
-  */
-  public Stage getPrimaryStage() {
-      return primaryStage;
-  }
-  
-  public static void main(String[] args) {
-      launch(args);
-  }
+			@Override
+			public void handle(ActionEvent event) {
+				System.out.println("Hello World!");
+			}
+		});
+
+		BorderPane root = new BorderPane();
+		
+		HBox hbox = new HBox();
+		hbox.getChildren().add(btn);
+		
+		root.getChildren().add(hbox);
+		primaryStage.setScene(new Scene(root, 300, 250));
+		primaryStage.show();
+	}
+
+	public static void main(String[] args) {
+		launch(args);
+	}
 }
