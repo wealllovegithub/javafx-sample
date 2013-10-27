@@ -1,7 +1,5 @@
 package org.saltations.controller;
 
-import com.sun.scenario.animation.SplineInterpolator;
-
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,6 +15,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.Data;
+
+import org.saltations.Happenings;
 
 @Data
 public class MainApp extends Application {
@@ -63,7 +63,35 @@ public class MainApp extends Application {
         
 		VBox vbox = new VBox();
 
-		ChoiceBox choiceBox = new ChoiceBox<String>();
+		ChoiceBox<Happenings> choiceBox = new ChoiceBox<Happenings>();
+		choiceBox.getItems().addAll(
+				Happenings.SIX_WEEKS_OUT,
+				Happenings.FIVE_WEEKS_OUT,
+				Happenings.FOUR_WEEKS_OUT,
+				Happenings.THREE_WEEKS_OUT,
+				Happenings.TWO_WEEKS_OUT,
+				Happenings.ONE_WEEKS_OUT,
+				Happenings.COACHES_TRAINING,
+				Happenings.WORK_DAY_I,
+				Happenings.CLASSROOM_1,
+				Happenings.CLASSROOM_2,
+				Happenings.CLASSROOM_3,
+				Happenings.CLASSROOM_4,
+				Happenings.WORK_DAY_II,
+				Happenings.CLASSROOM_5,
+				Happenings.CLASSROOM_6,
+				Happenings.CLASSROOM_7,
+				Happenings.CLASSROOM_8,
+				Happenings.FUTURES_MEETING_TRAINING,
+				Happenings.WORK_DAY_III,
+				Happenings.CLASSROOM_9,
+				Happenings.CLASSROOM_10,
+				Happenings.CLASSROOM_11,
+				Happenings.CLASSROOM_12
+				);
+		
+		choiceBox.getSelectionModel().selectFirst();
+		choiceBox.autosize();
 
 		vbox.getChildren().add(choiceBox);
 		vbox.autosize();
