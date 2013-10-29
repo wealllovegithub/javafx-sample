@@ -22,12 +22,20 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import org.saltations.Happenings;
+import org.saltations.tracker.model.Participant;
 import org.saltations.tracker.model.Program;
+
+import uk.co.it.modular.beans.BeanUtils;
+import uk.co.it.modular.beans.TypeProperty;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.config.EmbeddedConfiguration;
+import com.panemu.tiwulfx.table.CheckBoxColumn;
+import com.panemu.tiwulfx.table.NumberColumn;
+import com.panemu.tiwulfx.table.TableControl;
+import com.panemu.tiwulfx.table.TextColumn;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
@@ -148,7 +156,35 @@ public class MainApp extends Application {
 		
 		HBox rhs = new HBox();
 		
+		TableControl<Participant> participantTable = new  TableControl<Participant>();
+		participantTable.setController(new ParticipantTableController());
+		participantTable.setRecordClass(Participant.class);
+		
+		participantTable.autosize();
+
+		List<TypeProperty> properties = BeanUtils.propertyList(Participant.class);
+		
+		for (TypeProperty property : properties) {
+		
+			if (property.isString())
+			{
+				participantTable.addColumn(new TextColumn<Participant>(property.getName()));
+			}
+			else if (property.isBoolean() )
+			{
+				participantTable.addColumn(new CheckBoxColumn<Participant>(property.getName()));
+			}
+			else if (property.isInteger() )
+			{
+				participantTable.addColumn(new NumberColumn<Participant, Integer>(property.getName(), Integer.class));
+			}
+		}
+		
+		rhs.getChildren().add(participantTable);
+		rhs.autosize();
+		
 		centerSplit.getItems().addAll(lhs, rhs);
+		
 		return centerSplit;
 	}
 
@@ -220,14 +256,17 @@ public class MainApp extends Application {
         actionsAndDisplays.setRoot(treeRoot);
         treeRoot.setExpanded(true);
 		
-		
 		actionsAndDisplays.autosize();
+		
 		lhs.getChildren().add(actionsAndDisplays);
+		
 		return lhs;
 	}
 
+	
 	public static void main(String[] args) {
-
 		launch(args);
 	}
+	
+	
 }

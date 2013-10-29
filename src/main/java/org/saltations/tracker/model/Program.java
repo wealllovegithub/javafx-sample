@@ -1,9 +1,9 @@
 package org.saltations.tracker.model;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
-
-import javax.management.relation.Role;
+import java.util.Set;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,16 +12,19 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import org.joda.time.DateTime;
+import org.saltations.tracker.infra.PredicateRole;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
-
+import com.google.common.collect.Sets;
 
 /**
  * @author jmochel
  */
 
 @Data
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @RequiredArgsConstructor
 public class Program extends EntityImpl implements Serializable {
@@ -43,52 +46,15 @@ public class Program extends EntityImpl implements Serializable {
 	private DateTime endDate;
 
 	/**
-	 * All the roles 
+	 * All the roles
 	 */
 
-	private List<Role> roles = Lists.newArrayList();
+	private Set<Role> roles = Sets.newConcurrentHashSet();
 
-	/**
-	 * Method designed to walkthrough the roles and come up with a list of the given Role class  
-	 *  
-	 * @param clazz
-	 * @return
-	 */
+	public <T extends Role> Set<T> getPeeps(Class<T> clazz) {
 
-	private class RoleExemplar<T extends Role> {
-		T exemplar;
-
-		public RoleExemplar(Class<T> clazz) {
-
-			try {
-				exemplar = clazz.newInstance();
-			} catch (InstantiationException e) {
-				throw new IllegalStateException(e);
-			} catch (IllegalAccessException e) {
-				throw new IllegalStateException(e);
-			}
-
-		}
-
-		boolean instanceOf(Role sample) {
-			return exemplar.getClass().isAssignableFrom(sample.getClass());
-		}
-	}
-
-	public <T extends Role> List<T> getPeeps(Class<T> clazz) {
+		return Sets.filter(roles, new PredicateRole(clazz));
 		
-		RoleExemplar<T> exemplar = new RoleExemplar(clazz);
-
-		List<T> peeps = Lists.newArrayList();
-
-		for (Role role : roles) {
-
-			if (exemplar.instanceOf(role)) {
-				peeps.add((T) role);
-			}
-		}
-
-		return peeps;
 	}
 
 }

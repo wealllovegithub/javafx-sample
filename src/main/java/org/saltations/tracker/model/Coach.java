@@ -13,10 +13,7 @@ import lombok.NoArgsConstructor;
  */
 
 @Data
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper=true)
-
-
 public class Coach extends PersonWhoCoaches {
 
 	private static final long serialVersionUID = 1L;
@@ -27,5 +24,9 @@ public class Coach extends PersonWhoCoaches {
 	
 	public Coach(Person person) {
 		super(person);
+	}
+	
+	public Coach() {
+		super(new Person());
 	}
 }
