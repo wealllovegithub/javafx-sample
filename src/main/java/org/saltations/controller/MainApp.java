@@ -22,9 +22,11 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import org.saltations.Happenings;
+import org.saltations.tracker.model.Program;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
 import com.db4o.config.EmbeddedConfiguration;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -44,7 +46,8 @@ public class MainApp extends Application {
 	 */
 
 	private ObjectContainer objStore = null;
-
+	
+	
 	public MainApp()
 	{
 		String fileName = conf.getString("app.datastore.location");
@@ -56,6 +59,22 @@ public class MainApp extends Application {
 		File dbFile = new File(fileName);
 		
 		objStore = Db4oEmbedded.openFile(config,dbFile.getAbsolutePath());
+		
+		/*
+		 * Retrieve the Program from the Data Store 
+		 */
+		
+		ObjectSet<Program> programs = objStore.query(Program.class);
+		
+		if (programs.size() == 0)
+		{
+			Program program = new Program();
+			
+			objStore.store(program);
+			
+			Context.set(program);
+		}
+		
 	}
 	
 	@Override
@@ -106,13 +125,16 @@ public class MainApp extends Application {
 	/**
 	 * @return
 	 */
+	
 	private MenuBar genMenuBar() {
+		
 		MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");
         Menu menuImport = new Menu("Import");
         Menu menuExport = new Menu("View");
 
         menuBar.getMenus().addAll(menuFile, menuImport, menuExport);
+        
 		return menuBar;
 	}
 

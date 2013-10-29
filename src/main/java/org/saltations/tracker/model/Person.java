@@ -1,4 +1,4 @@
-package org.saltations.model;
+package org.saltations.tracker.model;
 
 import java.util.Calendar;
 
@@ -11,10 +11,14 @@ import lombok.RequiredArgsConstructor;
 public class Person {
 
 	  @NonNull
-	  private String firstName;
+	  private String first;
 
 	  @NonNull
-	  private String lastName;
+	  private String last;
+
+	  @NonNull
+	  private String called;
+	  
 	  
 	  private String street;
 	  private int postalCode;
