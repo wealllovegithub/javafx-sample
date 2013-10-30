@@ -29,6 +29,7 @@ import org.saltations.tracker.model.Program;
 import org.saltations.tracker.ui.tab.CoachesTab;
 import org.saltations.tracker.ui.tab.HeadCoachesTab;
 import org.saltations.tracker.ui.tab.ParticipantTab;
+import org.saltations.tracker.ui.tab.ProductionTab;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
@@ -168,7 +169,10 @@ public class MainApp extends Application {
         HeadCoachesTab tab3 = new HeadCoachesTab();
         tabPane.getTabs().add(tab3);
         
-		rhs.getChildren().add(tabPane);
+        ProductionTab tab4 = new ProductionTab();
+        tabPane.getTabs().add(tab4);
+        
+        rhs.getChildren().add(tabPane);
 		rhs.autosize();
 		
 		centerSplit.getItems().addAll(lhs, rhs);

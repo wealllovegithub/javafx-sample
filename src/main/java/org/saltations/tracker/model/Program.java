@@ -45,4 +45,6 @@ public class Program extends EntityImpl implements Serializable {
 	
 	private List<HeadCoach> headCoaches = Lists.newArrayList();
 
+	private List<Production> production = Lists.newArrayList();
+
 }
