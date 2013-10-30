@@ -1,4 +1,4 @@
-package org.saltations.controller;
+package org.saltations.tracker.ui;
 
 import java.io.File;
 import java.util.List;
@@ -13,7 +13,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -25,20 +24,15 @@ import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import org.saltations.Happenings;
-import org.saltations.tracker.model.Participant;
+import org.saltations.controller.Context;
 import org.saltations.tracker.model.Program;
-
-import uk.co.it.modular.beans.BeanUtils;
-import uk.co.it.modular.beans.TypeProperty;
+import org.saltations.tracker.ui.tab.CoachesTab;
+import org.saltations.tracker.ui.tab.ParticipantTab;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.config.EmbeddedConfiguration;
-import com.panemu.tiwulfx.table.CheckBoxColumn;
-import com.panemu.tiwulfx.table.NumberColumn;
-import com.panemu.tiwulfx.table.TableControl;
-import com.panemu.tiwulfx.table.TextColumn;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
@@ -164,30 +158,12 @@ public class MainApp extends Application {
         tabPane.setSide(Side.TOP);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
 		
-//		TableControl<Participant> participantTable = new  TableControl<Participant>();
-//		participantTable.setController(new ParticipantTableController());
-//		participantTable.setRecordClass(Participant.class);
-//		
-//		participantTable.autosize();
-//
-//		List<TypeProperty> properties = BeanUtils.propertyList(Participant.class);
-//		
-//		for (TypeProperty property : properties) {
-//		
-//			if (property.isString())
-//			{
-//				participantTable.addColumn(new TextColumn<Participant>(property.getName()));
-//			}
-//			else if (property.isBoolean() )
-//			{
-//				participantTable.addColumn(new CheckBoxColumn<Participant>(property.getName()));
-//			}
-//			else if (property.isInteger() )
-//			{
-//				participantTable.addColumn(new NumberColumn<Participant, Integer>(property.getName(), Integer.class));
-//			}
-//		}
-		
+        ParticipantTab tab1 = new ParticipantTab();
+        tabPane.getTabs().add(tab1);
+
+        CoachesTab tab2 = new CoachesTab();
+        tabPane.getTabs().add(tab2);
+        
 		rhs.getChildren().add(tabPane);
 		rhs.autosize();
 		

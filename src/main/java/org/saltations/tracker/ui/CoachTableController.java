@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.saltations.controller;
+package org.saltations.tracker.ui;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -10,6 +10,7 @@ import java.util.List;
 
 import javafx.scene.control.TableColumn.SortType;
 
+import org.saltations.controller.Context;
 import org.saltations.tracker.model.Coach;
 
 import com.google.common.base.Preconditions;
