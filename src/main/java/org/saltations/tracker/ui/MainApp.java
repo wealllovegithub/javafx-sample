@@ -4,11 +4,9 @@ import java.io.File;
 import java.util.List;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.geometry.Rectangle2D;
 import javafx.geometry.Side;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -19,6 +17,7 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -51,8 +50,16 @@ public class MainApp extends Application {
 	
 	public MainApp()
 	{
+		/*
+		 * Get the location of the data stoprage.
+		 */
+		
 		String fileName = conf.getString("app.datastore.location");
-				
+		
+		/*
+		 * Configure the data storage. 
+		 */
+		
 		EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
 		config.common().activationDepth(30);
 		config.common().updateDepth(30);
@@ -61,6 +68,10 @@ public class MainApp extends Application {
 		
 		ObjectContainer objStore = Db4oEmbedded.openFile(config,dbFile.getAbsolutePath());
 		
+		/*
+		 * Set it into a Context object as a singleton.
+		 */
+		
 		Context.set(objStore);
 		
 		/*
@@ -68,7 +79,10 @@ public class MainApp extends Application {
 		 */
 		
 		ObjectSet<Program> programs = objStore.query(Program.class);
-		
+
+		/*
+		 * If it doesnt exist, create it.
+		 */
 		
 		if (programs.size() == 0)
 		{
@@ -90,16 +104,6 @@ public class MainApp extends Application {
 		
 		primaryStage.setTitle("Possibility Tracker");
 		
-		Button btn = new Button();
-		btn.setText("Say 'Hello World'");
-		btn.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				System.out.println("Hello World!");
-			}
-		});
-
 		/*
 		 * Root Pane.
 		 */
@@ -126,7 +130,15 @@ public class MainApp extends Application {
 		 * Activate.
 		 */
 		
-		primaryStage.setScene(new Scene(root, 300, 250));
+		Screen screen = Screen.getPrimary();
+		Rectangle2D bounds = screen.getVisualBounds();
+
+		primaryStage.setX(bounds.getMinX());
+		primaryStage.setY(bounds.getMinY());
+		primaryStage.setWidth(bounds.getWidth());
+		primaryStage.setHeight(bounds.getHeight());
+		
+		primaryStage.setScene(new Scene(root));
 		primaryStage.show();
 	}
 
@@ -150,16 +162,38 @@ public class MainApp extends Application {
 	 * @return
 	 */
 	private SplitPane genMainSplit() {
+		
+		/* 
+		 * TODO Snug the LHS of the Split Pane so that the LHS is just big enough for the select.
+		 */
+		
 		SplitPane centerSplit = new SplitPane();
         
 		VBox lhs = genLHS();
 		
+		HBox rhs = genRHS();
+		
+		centerSplit.getItems().addAll(lhs, rhs);
+		
+		return centerSplit;
+	}
+
+	private HBox genRHS() {
+		
 		HBox rhs = new HBox();
+
+		/*
+		 * Generate the Tab Pane. This will have tabs added to it as necessary.
+		 */
 		
         TabPane tabPane = new TabPane();
         tabPane.setSide(Side.TOP);
         tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
 		
+        /*
+         * Default tabs
+         */
+        
         ParticipantTab tab1 = new ParticipantTab();
         tabPane.getTabs().add(tab1);
 
@@ -173,11 +207,9 @@ public class MainApp extends Application {
         tabPane.getTabs().add(tab4);
         
         rhs.getChildren().add(tabPane);
+        
 		rhs.autosize();
-		
-		centerSplit.getItems().addAll(lhs, rhs);
-		
-		return centerSplit;
+		return rhs;
 	}
 
 	/**
