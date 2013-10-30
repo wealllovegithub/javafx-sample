@@ -82,9 +82,6 @@ public class MainApp extends Application {
 			Context.set(program);
 		}
 		else {
-			
-			log.info(MessageFormat.format("{0}", programs.get(0).getParticipants().size()));
-			
 			Context.set(programs.get(0));
 		}
 		

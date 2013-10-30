@@ -43,6 +43,6 @@ public class Program extends EntityImpl implements Serializable {
 	
 	private List<Participant> participants = Lists.newArrayList();
 	
-	private List<HeadCoach> headCopaches = Lists.newArrayList();
+	private List<HeadCoach> headCoaches = Lists.newArrayList();
 
 }
