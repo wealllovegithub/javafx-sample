@@ -5,7 +5,6 @@ package org.saltations.tracker.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 /**
  * @author jmochel
@@ -14,7 +13,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @EqualsAndHashCode(callSuper=true)
-public class Coach extends PersonWhoCoaches {
+public class Coach extends AbstractCoach {
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,10 +22,11 @@ public class Coach extends PersonWhoCoaches {
 	 */
 	
 	public Coach(Person person) {
-		super(person);
+		super(RoleType.COACH, person);
 	}
 	
 	public Coach() {
-		super(new Person());
+		super(RoleType.COACH, new Person());
 	}
+
 }

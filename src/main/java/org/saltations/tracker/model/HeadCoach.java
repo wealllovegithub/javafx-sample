@@ -15,17 +15,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper=true)
-
-
-public class HeadCoach extends PersonWhoCoaches {
+public class HeadCoach extends AbstractCoach {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @param person
-	 */
-	
 	public HeadCoach(Person person) {
-		super(person);
+		super(RoleType.HEAD_COACH, person);
 	}
 }

@@ -1,28 +1,23 @@
 package org.saltations.tracker.model;
 
+import com.eaio.uuid.UUID;
 
 public interface Role {
 
 	public abstract Boolean getGraduate();
 
-	public abstract Person getPerson();
+	public abstract UUID getId();
 
-	/**
-	 * @return
-	 * @see org.saltations.tracker.model.Person#getCalled()
-	 */
+	public abstract RoleType getType();
+
 	public abstract String getCalled();
 
-	/**
-	 * @return
-	 * @see org.saltations.tracker.model.Person#getFirst()
-	 */
+	public abstract String getCity();
+
 	public abstract String getFirst();
 
-	/**
-	 * @return
-	 * @see org.saltations.tracker.model.Person#getLast()
-	 */
 	public abstract String getLast();
+
+	public abstract String getPostalCode();
 
 }

@@ -49,6 +49,7 @@ public class MainApp extends Application {
 	
 	private Config conf = ConfigFactory.load();
 	
+	
 	/**
 	 * Data Store for Db4O
 	 */
@@ -81,6 +82,9 @@ public class MainApp extends Application {
 			objStore.store(program);
 			
 			Context.set(program);
+		}
+		else {
+			Context.set(programs.get(0));
 		}
 		
 	}
