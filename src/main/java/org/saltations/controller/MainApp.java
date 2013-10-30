@@ -1,18 +1,20 @@
 package org.saltations.controller;
 
 import java.io.File;
-import java.text.MessageFormat;
 import java.util.List;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
@@ -158,31 +160,35 @@ public class MainApp extends Application {
 		
 		HBox rhs = new HBox();
 		
-		TableControl<Participant> participantTable = new  TableControl<Participant>();
-		participantTable.setController(new ParticipantTableController());
-		participantTable.setRecordClass(Participant.class);
+        TabPane tabPane = new TabPane();
+        tabPane.setSide(Side.TOP);
+        tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
 		
-		participantTable.autosize();
-
-		List<TypeProperty> properties = BeanUtils.propertyList(Participant.class);
+//		TableControl<Participant> participantTable = new  TableControl<Participant>();
+//		participantTable.setController(new ParticipantTableController());
+//		participantTable.setRecordClass(Participant.class);
+//		
+//		participantTable.autosize();
+//
+//		List<TypeProperty> properties = BeanUtils.propertyList(Participant.class);
+//		
+//		for (TypeProperty property : properties) {
+//		
+//			if (property.isString())
+//			{
+//				participantTable.addColumn(new TextColumn<Participant>(property.getName()));
+//			}
+//			else if (property.isBoolean() )
+//			{
+//				participantTable.addColumn(new CheckBoxColumn<Participant>(property.getName()));
+//			}
+//			else if (property.isInteger() )
+//			{
+//				participantTable.addColumn(new NumberColumn<Participant, Integer>(property.getName(), Integer.class));
+//			}
+//		}
 		
-		for (TypeProperty property : properties) {
-		
-			if (property.isString())
-			{
-				participantTable.addColumn(new TextColumn<Participant>(property.getName()));
-			}
-			else if (property.isBoolean() )
-			{
-				participantTable.addColumn(new CheckBoxColumn<Participant>(property.getName()));
-			}
-			else if (property.isInteger() )
-			{
-				participantTable.addColumn(new NumberColumn<Participant, Integer>(property.getName(), Integer.class));
-			}
-		}
-		
-		rhs.getChildren().add(participantTable);
+		rhs.getChildren().add(tabPane);
 		rhs.autosize();
 		
 		centerSplit.getItems().addAll(lhs, rhs);
@@ -225,6 +231,7 @@ public class MainApp extends Application {
 		
 		choiceBox.getSelectionModel().selectFirst();
 		choiceBox.autosize();
+		
 
 		lhs.getChildren().add(choiceBox);
 		lhs.autosize();
