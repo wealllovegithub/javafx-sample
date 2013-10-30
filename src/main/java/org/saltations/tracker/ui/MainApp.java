@@ -23,7 +23,7 @@ import javafx.stage.Stage;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import org.saltations.Happenings;
+import org.saltations.StockHappening;
 import org.saltations.controller.Context;
 import org.saltations.tracker.model.Program;
 import org.saltations.tracker.ui.tab.CoachesTab;
@@ -221,31 +221,31 @@ public class MainApp extends Application {
 	private VBox genLHS() {
 		VBox lhs = new VBox();
 
-		ChoiceBox<Happenings> choiceBox = new ChoiceBox<Happenings>();
+		ChoiceBox<StockHappening> choiceBox = new ChoiceBox<StockHappening>();
 		choiceBox.getItems().addAll(
-				Happenings.SIX_WEEKS_OUT,
-				Happenings.FIVE_WEEKS_OUT,
-				Happenings.FOUR_WEEKS_OUT,
-				Happenings.THREE_WEEKS_OUT,
-				Happenings.TWO_WEEKS_OUT,
-				Happenings.ONE_WEEKS_OUT,
-				Happenings.COACHES_TRAINING,
-				Happenings.WORK_DAY_I,
-				Happenings.CLASSROOM_1,
-				Happenings.CLASSROOM_2,
-				Happenings.CLASSROOM_3,
-				Happenings.CLASSROOM_4,
-				Happenings.WORK_DAY_II,
-				Happenings.CLASSROOM_5,
-				Happenings.CLASSROOM_6,
-				Happenings.CLASSROOM_7,
-				Happenings.CLASSROOM_8,
-				Happenings.FUTURES_MEETING_TRAINING,
-				Happenings.WORK_DAY_III,
-				Happenings.CLASSROOM_9,
-				Happenings.CLASSROOM_10,
-				Happenings.CLASSROOM_11,
-				Happenings.CLASSROOM_12
+				StockHappening.SIX_WEEKS_OUT,
+				StockHappening.FIVE_WEEKS_OUT,
+				StockHappening.FOUR_WEEKS_OUT,
+				StockHappening.THREE_WEEKS_OUT,
+				StockHappening.TWO_WEEKS_OUT,
+				StockHappening.ONE_WEEKS_OUT,
+				StockHappening.COACHES_TRAINING,
+				StockHappening.WORK_DAY_I,
+				StockHappening.CLASSROOM_1,
+				StockHappening.CLASSROOM_2,
+				StockHappening.CLASSROOM_3,
+				StockHappening.CLASSROOM_4,
+				StockHappening.WORK_DAY_II,
+				StockHappening.CLASSROOM_5,
+				StockHappening.CLASSROOM_6,
+				StockHappening.CLASSROOM_7,
+				StockHappening.CLASSROOM_8,
+				StockHappening.FUTURES_MEETING_TRAINING,
+				StockHappening.WORK_DAY_III,
+				StockHappening.CLASSROOM_9,
+				StockHappening.CLASSROOM_10,
+				StockHappening.CLASSROOM_11,
+				StockHappening.CLASSROOM_12
 				);
 		
 		choiceBox.getSelectionModel().selectFirst();
