@@ -13,7 +13,6 @@ import javafx.scene.control.TableColumn.SortType;
 import org.saltations.controller.Context;
 import org.saltations.tracker.model.Participant;
 
-import com.google.common.base.Preconditions;
 import com.panemu.tiwulfx.common.TableCriteria;
 import com.panemu.tiwulfx.common.TableData;
 import com.panemu.tiwulfx.table.TableController;

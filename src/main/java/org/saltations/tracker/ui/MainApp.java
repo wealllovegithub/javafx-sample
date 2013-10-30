@@ -8,6 +8,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.SplitPane;
@@ -170,6 +171,8 @@ public class MainApp extends Application {
 		SplitPane centerSplit = new SplitPane();
         
 		VBox lhs = genLHS();
+		lhs.setMinWidth(Control.USE_COMPUTED_SIZE);
+        lhs.setMaxWidth(Control.USE_COMPUTED_SIZE);
 		
 		HBox rhs = genRHS();
 		
@@ -246,11 +249,8 @@ public class MainApp extends Application {
 				);
 		
 		choiceBox.getSelectionModel().selectFirst();
-		choiceBox.autosize();
-		
 
 		lhs.getChildren().add(choiceBox);
-		lhs.autosize();
 		
 		/*
 		 * Read the config into the memory 
@@ -281,7 +281,7 @@ public class MainApp extends Application {
         actionsAndDisplays.setRoot(treeRoot);
         treeRoot.setExpanded(true);
 		
-		actionsAndDisplays.autosize();
+		actionsAndDisplays.setMaxWidth(Control.USE_COMPUTED_SIZE);
 		
 		lhs.getChildren().add(actionsAndDisplays);
 		

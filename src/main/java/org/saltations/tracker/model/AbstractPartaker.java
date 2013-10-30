@@ -17,6 +17,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper=true)
 public class AbstractPartaker extends AbstractGraduate {
 
+	Attendance attendance = new Attendance();
+	
 	private static final long serialVersionUID = 1L;
 
 	public AbstractPartaker(RoleType type, Person person) {
