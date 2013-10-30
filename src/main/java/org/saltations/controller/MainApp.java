@@ -1,6 +1,7 @@
 package org.saltations.controller;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.List;
 
 import javafx.application.Application;
@@ -50,24 +51,19 @@ public class MainApp extends Application {
 	private Config conf = ConfigFactory.load();
 	
 	
-	/**
-	 * Data Store for Db4O
-	 */
-
-	private ObjectContainer objStore = null;
-	
-	
 	public MainApp()
 	{
 		String fileName = conf.getString("app.datastore.location");
 				
 		EmbeddedConfiguration config = Db4oEmbedded.newConfiguration();
-		config.common().activationDepth(18);
-		config.common().updateDepth(18);
+		config.common().activationDepth(30);
+		config.common().updateDepth(30);
 		
 		File dbFile = new File(fileName);
 		
-		objStore = Db4oEmbedded.openFile(config,dbFile.getAbsolutePath());
+		ObjectContainer objStore = Db4oEmbedded.openFile(config,dbFile.getAbsolutePath());
+		
+		Context.set(objStore);
 		
 		/*
 		 * Retrieve the Program from the Data Store 
@@ -75,15 +71,20 @@ public class MainApp extends Application {
 		
 		ObjectSet<Program> programs = objStore.query(Program.class);
 		
+		
 		if (programs.size() == 0)
 		{
 			Program program = new Program();
 			
 			objStore.store(program);
+			objStore.commit();
 			
 			Context.set(program);
 		}
 		else {
+			
+			log.info(MessageFormat.format("{0}", programs.get(0).getParticipants().size()));
+			
 			Context.set(programs.get(0));
 		}
 		

@@ -36,14 +36,42 @@ public class ParticipantTableController extends TableController<Participant> {
 		return new TableData<Participant>(Context.get().getParticipants(), false, Context.get().getParticipants().size()); 
 	}
 
+	/**
+	 * Insert this list of participants into the backing store.
+	 */
+	
 	@Override
 	public List<Participant> insert(List<Participant> newRecords) {
 		checkNotNull(newRecords);
 		checkArgument(newRecords.size() != 0);
 		
 		Context.get().getParticipants().addAll(newRecords);
+		Context.store();
 		
 		return Context.get().getParticipants();
 	}
+	
+	@Override
+	public List<Participant> update(List<Participant> updatedRecords) {
+		checkNotNull(updatedRecords);
+		checkArgument(updatedRecords.size() != 0);
+
+		Context.store();
+		
+		return Context.get().getParticipants();
+	}
+	
+	@Override
+	public void delete(List<Participant> deletedRecords) {
+		checkNotNull(deletedRecords);
+		checkArgument(deletedRecords.size() != 0);
+
+		for (Participant participant : deletedRecords) {
+			Context.get().getParticipants().remove(participant);
+		}
+		
+		Context.store();
+	}
+	
 	
 }
