@@ -10,7 +10,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import org.joda.time.DateTime;
-import org.saltations.StockHappening;
+import org.saltations.StockEvt;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Lists;
@@ -50,6 +50,5 @@ public class Program extends EntityImpl implements Serializable {
 
 	private List<Production> production = Lists.newArrayList();
 
-	Multimap<StockHappening, Happening> calendar = HashMultimap.create();
-	
+	Multimap<StockEvt, Evt> calendar = HashMultimap.create();
 }

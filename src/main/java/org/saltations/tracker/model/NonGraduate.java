@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper=true)
-public class NonGraduate extends AbstractRoleImpl {
+public class NonGraduate extends AbstractRole {
 
 	private static final long serialVersionUID = 1L;
 

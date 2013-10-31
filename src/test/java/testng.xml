@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+  
+<suite name="selp-tracker-domain" verbose="1" >
+  <test name="unit" >
+	  <packages>
+	  	<package name="org.saltations.tracker.model"/>
+	  </packages>
+  </test>
+</suite>

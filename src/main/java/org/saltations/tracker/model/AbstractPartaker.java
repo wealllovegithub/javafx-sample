@@ -5,6 +5,7 @@ package org.saltations.tracker.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
@@ -16,6 +17,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper=true)
 public class AbstractPartaker extends AbstractGraduate {
+
+	private boolean handedInAgreementAndWaiver = false;
+	private boolean handedInAttendanceCommunication = false;
+	private boolean handedInParticipationInformationForm  = false;
+	private boolean handedInParticipationWorksheet  = false;
+	private boolean scheduledCoachingCall  = false;
+	private boolean scheduledFuturesMeeting  = false;
+	private boolean scheduledGroupCall  = false;
+	private boolean scheduledIntro  = false;
+	private boolean handedInCommunityProjectShortForm  = false;
+	private boolean handedInCommunityProjectLongForm  = false;
 
 	Attendance attendance = new Attendance();
 	

@@ -1,6 +1,7 @@
 package org.saltations.tracker.ui;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 import javafx.application.Application;
@@ -23,11 +24,16 @@ import javafx.stage.Stage;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import org.saltations.StockHappening;
+import org.joda.time.DateTime;
+import org.saltations.StockEvt;
 import org.saltations.controller.Context;
+import org.saltations.tracker.model.Coach;
+import org.saltations.tracker.model.Participant;
 import org.saltations.tracker.model.Program;
 import org.saltations.tracker.ui.tab.CoachesTab;
+import org.saltations.tracker.ui.tab.GeneralTab;
 import org.saltations.tracker.ui.tab.HeadCoachesTab;
+import org.saltations.tracker.ui.tab.ParticipantAttendanceCommunicationTab;
 import org.saltations.tracker.ui.tab.ParticipantTab;
 import org.saltations.tracker.ui.tab.ProductionTab;
 
@@ -35,6 +41,7 @@ import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.config.EmbeddedConfiguration;
+import com.google.common.base.Preconditions;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
@@ -48,14 +55,18 @@ public class MainApp extends Application {
 	
 	private Config conf = ConfigFactory.load();
 	
+	/**
+	 * Main Application 
+	 */
 	
 	public MainApp()
 	{
+		
 		/*
-		 * Get the location of the data stoprage.
+		 * Get the location of the data storage.
 		 */
 		
-		String fileName = conf.getString("app.datastore.location");
+		String fileName = conf.getString("app.datastore-location");
 		
 		/*
 		 * Configure the data storage. 
@@ -82,12 +93,41 @@ public class MainApp extends Application {
 		ObjectSet<Program> programs = objStore.query(Program.class);
 
 		/*
-		 * If it doesnt exist, create it.
+		 * If it doesn't exist, create it.
 		 */
 		
 		if (programs.size() == 0)
 		{
 			Program program = new Program();
+			
+			/*
+			 * Start and End Date
+			 */
+			
+			Preconditions.checkArgument(conf.hasPath("program.start-date"));
+			
+			String startDateAsString = conf.getString("program.start-date");
+
+			Preconditions.checkArgument(conf.hasPath("program.end-date"));
+			
+			String endDateAsString = conf.getString("program.end-date");
+
+			program.setStartDate(DateTime.parse(startDateAsString));
+			
+			program.setEndDate(DateTime.parse(endDateAsString));
+			
+			/*
+			 * List of sessions
+			 */
+
+			List<? extends Config> sessionConfigs = conf.getConfigList("program.courses.selp.sessions");
+						
+			for (Config sessionConfig : sessionConfigs) {
+				
+				System.out.println(sessionConfig.getString("name"));
+				System.out.println(sessionConfig.getString("date"));
+				
+			}
 			
 			objStore.store(program);
 			objStore.commit();
@@ -97,7 +137,6 @@ public class MainApp extends Application {
 		else {
 			Context.set(programs.get(0));
 		}
-		
 	}
 	
 	@Override
@@ -197,17 +236,22 @@ public class MainApp extends Application {
          * Default tabs
          */
         
-        ParticipantTab tab1 = new ParticipantTab();
+        String[] emptyArray = {};
+        
+        GeneralTab<Participant> tab1 = new ParticipantTab(Arrays.asList(emptyArray));
         tabPane.getTabs().add(tab1);
 
-        CoachesTab tab2 = new CoachesTab();
+        GeneralTab<Coach> tab2 = new CoachesTab(Arrays.asList(emptyArray));
         tabPane.getTabs().add(tab2);
         
-        HeadCoachesTab tab3 = new HeadCoachesTab();
+        HeadCoachesTab tab3 = new HeadCoachesTab(Arrays.asList(emptyArray));
         tabPane.getTabs().add(tab3);
         
-        ProductionTab tab4 = new ProductionTab();
+        ProductionTab tab4 = new ProductionTab(Arrays.asList(emptyArray));
         tabPane.getTabs().add(tab4);
+        
+        ParticipantAttendanceCommunicationTab tab5 = new ParticipantAttendanceCommunicationTab(Arrays.asList(emptyArray));
+        tabPane.getTabs().add(tab5);
         
         rhs.getChildren().add(tabPane);
         
@@ -221,31 +265,31 @@ public class MainApp extends Application {
 	private VBox genLHS() {
 		VBox lhs = new VBox();
 
-		ChoiceBox<StockHappening> choiceBox = new ChoiceBox<StockHappening>();
+		ChoiceBox<StockEvt> choiceBox = new ChoiceBox<StockEvt>();
 		choiceBox.getItems().addAll(
-				StockHappening.SIX_WEEKS_OUT,
-				StockHappening.FIVE_WEEKS_OUT,
-				StockHappening.FOUR_WEEKS_OUT,
-				StockHappening.THREE_WEEKS_OUT,
-				StockHappening.TWO_WEEKS_OUT,
-				StockHappening.ONE_WEEKS_OUT,
-				StockHappening.COACHES_TRAINING,
-				StockHappening.WORK_DAY_I,
-				StockHappening.CLASSROOM_1,
-				StockHappening.CLASSROOM_2,
-				StockHappening.CLASSROOM_3,
-				StockHappening.CLASSROOM_4,
-				StockHappening.WORK_DAY_II,
-				StockHappening.CLASSROOM_5,
-				StockHappening.CLASSROOM_6,
-				StockHappening.CLASSROOM_7,
-				StockHappening.CLASSROOM_8,
-				StockHappening.FUTURES_MEETING_TRAINING,
-				StockHappening.WORK_DAY_III,
-				StockHappening.CLASSROOM_9,
-				StockHappening.CLASSROOM_10,
-				StockHappening.CLASSROOM_11,
-				StockHappening.CLASSROOM_12
+				StockEvt.SIX_WEEKS_OUT,
+				StockEvt.FIVE_WEEKS_OUT,
+				StockEvt.FOUR_WEEKS_OUT,
+				StockEvt.THREE_WEEKS_OUT,
+				StockEvt.TWO_WEEKS_OUT,
+				StockEvt.ONE_WEEKS_OUT,
+				StockEvt.COACHES_TRAINING,
+				StockEvt.WORK_DAY_I,
+				StockEvt.CLASSROOM_1,
+				StockEvt.CLASSROOM_2,
+				StockEvt.CLASSROOM_3,
+				StockEvt.CLASSROOM_4,
+				StockEvt.WORK_DAY_II,
+				StockEvt.CLASSROOM_5,
+				StockEvt.CLASSROOM_6,
+				StockEvt.CLASSROOM_7,
+				StockEvt.CLASSROOM_8,
+				StockEvt.FUTURES_MEETING_TRAINING,
+				StockEvt.WORK_DAY_III,
+				StockEvt.CLASSROOM_9,
+				StockEvt.CLASSROOM_10,
+				StockEvt.CLASSROOM_11,
+				StockEvt.CLASSROOM_12
 				);
 		
 		choiceBox.getSelectionModel().selectFirst();

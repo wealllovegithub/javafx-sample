@@ -2,7 +2,7 @@ package org.saltations.tracker.model;
 
 import org.joda.time.DateTime;
 
-public interface Happening {
+public interface Evt {
 
 	public String getWhat();
 

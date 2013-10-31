@@ -22,7 +22,7 @@ import com.eaio.uuid.UUID;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @AllArgsConstructor
-public abstract class AbstractRoleImpl implements Serializable, Role  {
+public abstract class AbstractRole implements Serializable, Role  {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -85,7 +85,7 @@ public abstract class AbstractRoleImpl implements Serializable, Role  {
 	 * @see org.saltations.tracker.model.Role#getPostalCode()
 	 */
 	@Override
-	public String getPostalCode() {
+	public ZipCode getPostalCode() {
 		return person.getPostalCode();
 	}
 
@@ -105,8 +105,56 @@ public abstract class AbstractRoleImpl implements Serializable, Role  {
 		person.setLast(last);
 	}
 
-	public void setPostalCode(String postalCode) {
+	public void setPostalCode(ZipCode postalCode) {
 		person.setPostalCode(postalCode);
+	}
+
+	/**
+	 * @return
+	 * @see org.saltations.tracker.model.Person#getState()
+	 */
+	public State getState() {
+		return person.getState();
+	}
+
+	/**
+	 * @return
+	 * @see org.saltations.tracker.model.Person#getStreet1()
+	 */
+	public String getStreet1() {
+		return person.getStreet1();
+	}
+
+	/**
+	 * @return
+	 * @see org.saltations.tracker.model.Person#getStreet2()
+	 */
+	public String getStreet2() {
+		return person.getStreet2();
+	}
+
+	/**
+	 * @param state
+	 * @see org.saltations.tracker.model.Person#setState(org.saltations.tracker.model.State)
+	 */
+	public void setState(State state) {
+		person.setState(state);
+	}
+
+	/**
+	 * @param street1
+	 * @see org.saltations.tracker.model.Person#setStreet1(java.lang.String)
+	 */
+	public void setStreet1(String street1) {
+		person.setStreet1(street1);
+	}
+
+	/**
+	 * @param street2
+	 * @see org.saltations.tracker.model.Person#setStreet2(java.lang.String)
+	 */
+	public void setStreet2(String street2) {
+		person.setStreet2(street2);
 	}
 
 	

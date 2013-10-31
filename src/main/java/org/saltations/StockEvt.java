@@ -3,7 +3,7 @@ package org.saltations;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public enum StockHappening {
+public enum StockEvt {
 
 	SIX_WEEKS_OUT            ( "Six Weeks Out"),
 	FIVE_WEEKS_OUT           ( "Five Weeks Out"),

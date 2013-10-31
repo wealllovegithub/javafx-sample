@@ -4,20 +4,26 @@ import com.eaio.uuid.UUID;
 
 public interface Role {
 
-	public abstract Boolean getGraduate();
+	public String getFirst();
 
-	public abstract UUID getId();
+	public String getCalled();
 
-	public abstract RoleType getType();
+	public String getLast();
 
-	public abstract String getCalled();
+	public Boolean getGraduate();
 
-	public abstract String getCity();
+	public UUID getId();
 
-	public abstract String getFirst();
+	public RoleType getType();
 
-	public abstract String getLast();
+	public String getStreet1();
+	
+	public String getStreet2();
+	
+	public String getCity();
 
-	public abstract String getPostalCode();
+	public State getState();
+
+	public ZipCode getPostalCode();
 
 }

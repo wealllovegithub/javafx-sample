@@ -5,6 +5,9 @@ import java.util.Map;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import ma.glasnost.orika.MapperFacade;
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
 
 import com.google.common.collect.Maps;
 
@@ -13,6 +16,8 @@ import com.google.common.collect.Maps;
 public class Person {
 	
 	final public static Person WHOLE_COMMUNITY = new Person("WHOLE","COMMUNITY","US");
+	
+	final public static Person UNKNOWN = new Person("John/Jane","Doe","");
 
 	@NonNull
 	private String first;
@@ -23,18 +28,147 @@ public class Person {
 	@NonNull
 	private String called;
 
-	private String postalCode;
-
-	private String city;
+	private Location location;
 
 	private Map<String, Promise> promises = Maps.newHashMap();
-
+	
 	public Person() {
 		first = "";
 		last = "";
 		called = "";
+		location = Location.NOWHERE;
+	}
+
+	
+	
+	
+	
+	public Person copy()
+	{
+		MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+		
+		mapperFactory.classMap(Person.class, Person.class)
+		   .byDefault()
+		   .register();
+
+		MapperFacade mapper = mapperFactory.getMapperFacade();
+		 
+		// map the fields of 'source' onto a new instance of PersonDest
+		Person copy = mapper.map(this, Person.class);
+		
+		return copy;
+	}
+
+
+
+
+
+	/**
+	 * @return
+	 * @see org.saltations.tracker.model.Location#getCity()
+	 */
+	public String getCity() {
+		return location.getCity();
+	}
+
+	/**
+	 * @return
+	 * @see org.saltations.tracker.model.Location#getPostalCode()
+	 */
+	public ZipCode getPostalCode() {
+		return location.getPostalCode();
+	}
+	/**
+	 * @return
+	 * @see org.saltations.tracker.model.Location#getState()
+	 */
+	public State getState() {
+		return location.getState();
+	}
+
+
+
+
+
+	/**
+	 * @return
+	 * @see org.saltations.tracker.model.Location#getStreet1()
+	 */
+	public String getStreet1() {
+		return location.getStreet1();
+	}
+
+
+
+
+
+	/**
+	 * @return
+	 * @see org.saltations.tracker.model.Location#getStreet2()
+	 */
+	public String getStreet2() {
+		return location.getStreet2();
+	}
+
+
+
+
+
+	/**
+	 * @param city
+	 * @see org.saltations.tracker.model.Location#setCity(java.lang.String)
+	 */
+	public void setCity(String city) {
+		location.setCity(city);
+	}
+
+
+
+
+
+	/**
+	 * @param postalCode
+	 * @see org.saltations.tracker.model.Location#setPostalCode(org.saltations.tracker.model.ZipCode)
+	 */
+	public void setPostalCode(ZipCode postalCode) {
+		location.setPostalCode(postalCode);
+	}
+
+
+
+
+
+	/**
+	 * @param state
+	 * @see org.saltations.tracker.model.Location#setState(org.saltations.tracker.model.State)
+	 */
+	public void setState(State state) {
+		location.setState(state);
+	}
+
+
+
+
+
+	/**
+	 * @param street1
+	 * @see org.saltations.tracker.model.Location#setStreet1(java.lang.String)
+	 */
+	public void setStreet1(String street1) {
+		location.setStreet1(street1);
+	}
+
+
+
+
+
+	/**
+	 * @param street2
+	 * @see org.saltations.tracker.model.Location#setStreet2(java.lang.String)
+	 */
+	public void setStreet2(String street2) {
+		location.setStreet2(street2);
 	}
 	
 	
-
 }
