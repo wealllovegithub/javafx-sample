@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.saltations.tracker.ui.controller;
+package org.saltations.tracker.ui.table.controller;
 
 import java.util.List;
 
@@ -12,14 +12,15 @@ import org.saltations.tracker.model.Coach;
  * @author jmochel
  *
  */
-public class CoachTableController extends GeneralTableController<Coach> {
-
-	public CoachTableController() {
-	}
+public class CoachLiveData implements LiveData<Coach>{
 
 	@Override
-	public List<Coach> getLiveList() {
+	public List<Coach> get() {
 		return Context.get().getCoaches();
 	}
 	
+	public void store() {
+		Context.store();
+	};
+
 }

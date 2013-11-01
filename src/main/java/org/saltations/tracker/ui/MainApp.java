@@ -32,12 +32,12 @@ import org.saltations.tracker.model.HeadCoach;
 import org.saltations.tracker.model.Participant;
 import org.saltations.tracker.model.Person;
 import org.saltations.tracker.model.Program;
-import org.saltations.tracker.ui.tab.CoachesTab;
-import org.saltations.tracker.ui.tab.GeneralTab;
-import org.saltations.tracker.ui.tab.HeadCoachesTab;
-import org.saltations.tracker.ui.tab.ParticipantAttendanceCommunicationTab;
-import org.saltations.tracker.ui.tab.ParticipantTab;
-import org.saltations.tracker.ui.tab.ProductionTab;
+import org.saltations.tracker.ui.masterdetail.tab.MDCoachesTab;
+import org.saltations.tracker.ui.masterdetail.tab.MDHeadCoachesTab;
+import org.saltations.tracker.ui.masterdetail.tab.MDParticipantAttendanceCommunicationTab;
+import org.saltations.tracker.ui.masterdetail.tab.MDParticipantTab;
+import org.saltations.tracker.ui.masterdetail.tab.MDProductionTab;
+import org.saltations.tracker.ui.masterdetail.tab.MasterDetailTab;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
@@ -332,19 +332,19 @@ public class MainApp extends Application {
         
         String[] emptyArray = {};
         
-        GeneralTab<Participant> tab1 = new ParticipantTab(Arrays.asList(emptyArray));
+        MasterDetailTab<Participant> tab1 = new MDParticipantTab(Arrays.asList(emptyArray));
         tabPane.getTabs().add(tab1);
 
-        GeneralTab<Coach> tab2 = new CoachesTab(Arrays.asList(emptyArray));
+        MasterDetailTab<Coach> tab2 = new MDCoachesTab(Arrays.asList(emptyArray));
         tabPane.getTabs().add(tab2);
         
-        HeadCoachesTab tab3 = new HeadCoachesTab(Arrays.asList(emptyArray));
+        MDHeadCoachesTab tab3 = new MDHeadCoachesTab(Arrays.asList(emptyArray));
         tabPane.getTabs().add(tab3);
         
-        ProductionTab tab4 = new ProductionTab(Arrays.asList(emptyArray));
+        MDProductionTab tab4 = new MDProductionTab(Arrays.asList(emptyArray));
         tabPane.getTabs().add(tab4);
         
-        ParticipantAttendanceCommunicationTab tab5 = new ParticipantAttendanceCommunicationTab(Arrays.asList(emptyArray));
+        MDParticipantAttendanceCommunicationTab tab5 = new MDParticipantAttendanceCommunicationTab(Arrays.asList(emptyArray));
         tabPane.getTabs().add(tab5);
         
         rhs.getChildren().add(tabPane);

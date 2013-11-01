@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.saltations.tracker.ui.controller;
+package org.saltations.tracker.ui.table.controller;
 
 import java.util.List;
 
@@ -12,14 +12,15 @@ import org.saltations.tracker.model.Production;
  * @author jmochel
  *
  */
-public class ProductionTableController extends GeneralTableController<Production> {
-
-	public ProductionTableController() {
-	}
+public class ProductionLiveData implements LiveData<Production>{
 
 	@Override
-	public List<Production> getLiveList() {
+	public List<Production> get() {
 		return Context.get().getProduction();
 	}
 	
+	public void store() {
+		Context.store();
+	};
+
 }
