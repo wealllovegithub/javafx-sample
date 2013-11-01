@@ -6,8 +6,6 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 import org.saltations.tracker.model.Participant;
-import org.saltations.tracker.model.State;
-import org.saltations.tracker.model.ZipCode;
 import org.saltations.tracker.ui.ParticipantTableController;
 
 @Slf4j

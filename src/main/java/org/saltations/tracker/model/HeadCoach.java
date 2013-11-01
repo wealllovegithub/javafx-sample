@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
  */
 
 @Data
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper=true)
 public class HeadCoach extends AbstractCoach {
 
@@ -21,5 +20,9 @@ public class HeadCoach extends AbstractCoach {
 
 	public HeadCoach(Person person) {
 		super(RoleType.HEAD_COACH, person);
+	}
+	
+	public HeadCoach() {
+		super(RoleType.HEAD_COACH, new Person());
 	}
 }

@@ -3,7 +3,6 @@
 	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/test/java"/>
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="M2_REPO/com/miglayout/miglayout-javafx/4.2/miglayout-javafx-4.2.jar" sourcepath="M2_REPO/com/miglayout/miglayout-javafx/4.2/miglayout-javafx-4.2-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:file:/home/jmochel/.m2/repository/com/miglayout/miglayout-javafx/4.2/miglayout-javafx-4.2-javadoc.jar!/"/>
@@ -117,6 +116,7 @@
 			<attribute name="javadoc_location" value="jar:file:/home/jmochel/.m2/repository/org/yaml/snakeyaml/1.12/snakeyaml-1.12-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="/usr/lib/jvm/java-7-oracle/jre/lib/jfxrt.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

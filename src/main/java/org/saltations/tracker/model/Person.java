@@ -12,7 +12,6 @@ import ma.glasnost.orika.impl.DefaultMapperFactory;
 import com.google.common.collect.Maps;
 
 @Data
-@RequiredArgsConstructor
 public class Person {
 	
 	final public static Person WHOLE_COMMUNITY = new Person("WHOLE","COMMUNITY","US");
@@ -36,33 +35,19 @@ public class Person {
 		first = "";
 		last = "";
 		called = "";
-		location = Location.NOWHERE;
+		location = new Location("","","",State.AK, new ZipCode(""));
 	}
 
-	
-	
-	
-	
-	public Person copy()
-	{
-		MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
+	public Person(String first, String last, String called) {
+		super();
+		this.first = first;
+		this.last = last;
+		this.called = called;
 		
-		mapperFactory.classMap(Person.class, Person.class)
-		   .byDefault()
-		   .register();
-
-		MapperFacade mapper = mapperFactory.getMapperFacade();
-		 
-		// map the fields of 'source' onto a new instance of PersonDest
-		Person copy = mapper.map(this, Person.class);
-		
-		return copy;
+		this.location = new Location("","","",State.AK, new ZipCode(""));
 	}
-
-
-
-
-
+	
+	
 	/**
 	 * @return
 	 * @see org.saltations.tracker.model.Location#getCity()
@@ -86,10 +71,6 @@ public class Person {
 		return location.getState();
 	}
 
-
-
-
-
 	/**
 	 * @return
 	 * @see org.saltations.tracker.model.Location#getStreet1()
@@ -97,10 +78,6 @@ public class Person {
 	public String getStreet1() {
 		return location.getStreet1();
 	}
-
-
-
-
 
 	/**
 	 * @return
@@ -110,10 +87,6 @@ public class Person {
 		return location.getStreet2();
 	}
 
-
-
-
-
 	/**
 	 * @param city
 	 * @see org.saltations.tracker.model.Location#setCity(java.lang.String)
@@ -121,10 +94,6 @@ public class Person {
 	public void setCity(String city) {
 		location.setCity(city);
 	}
-
-
-
-
 
 	/**
 	 * @param postalCode
@@ -134,10 +103,6 @@ public class Person {
 		location.setPostalCode(postalCode);
 	}
 
-
-
-
-
 	/**
 	 * @param state
 	 * @see org.saltations.tracker.model.Location#setState(org.saltations.tracker.model.State)
@@ -145,10 +110,6 @@ public class Person {
 	public void setState(State state) {
 		location.setState(state);
 	}
-
-
-
-
 
 	/**
 	 * @param street1
@@ -158,10 +119,6 @@ public class Person {
 		location.setStreet1(street1);
 	}
 
-
-
-
-
 	/**
 	 * @param street2
 	 * @see org.saltations.tracker.model.Location#setStreet2(java.lang.String)
@@ -169,6 +126,7 @@ public class Person {
 	public void setStreet2(String street2) {
 		location.setStreet2(street2);
 	}
-	
+
+
 	
 }
