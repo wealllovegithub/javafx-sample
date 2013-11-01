@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.saltations.tracker.ui;
+package org.saltations.tracker.ui.controller;
 
 import java.util.List;
 

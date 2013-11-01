@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 import org.saltations.tracker.model.HeadCoach;
-import org.saltations.tracker.ui.HeadCoachTableController;
+import org.saltations.tracker.ui.controller.HeadCoachTableController;
 
 @Slf4j
 public class HeadCoachesTab extends GeneralTab<HeadCoach> {

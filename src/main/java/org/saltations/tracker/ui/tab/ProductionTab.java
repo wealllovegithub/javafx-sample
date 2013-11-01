@@ -6,7 +6,7 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 import org.saltations.tracker.model.Production;
-import org.saltations.tracker.ui.ProductionTableController;
+import org.saltations.tracker.ui.controller.ProductionTableController;
 
 @Slf4j
 public class ProductionTab extends GeneralTab<Production> {

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.saltations.tracker.ui;
+package org.saltations.tracker.ui.controller;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
