@@ -6,6 +6,7 @@ package org.saltations.tracker.ui.table.controller;
 import java.util.List;
 
 import org.saltations.controller.Context;
+import org.saltations.tracker.model.Participant;
 import org.saltations.tracker.model.Production;
 
 /**
@@ -23,4 +24,8 @@ public class ProductionLiveData implements LiveData<Production>{
 		Context.store();
 	};
 
+	@Override
+	public Production exemplar() {
+		return new Production();
+	}
 }

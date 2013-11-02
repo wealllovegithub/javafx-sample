@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.saltations.controller.Context;
 import org.saltations.tracker.model.HeadCoach;
+import org.saltations.tracker.model.Participant;
 
 /**
  * @author jmochel
@@ -22,5 +23,10 @@ public class HeadCoachLiveData implements LiveData<HeadCoach>{
 	public void store() {
 		Context.store();
 	};
+	
+	@Override
+	public HeadCoach exemplar() {
+		return new HeadCoach();
+	}
 
 }

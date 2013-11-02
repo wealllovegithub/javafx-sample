@@ -24,10 +24,11 @@ public abstract class AbstractGraduate extends AbstractRole {
      * futures tracking. It is not used as the identifier of record.
      */
 
-    private Long pid;
+    private String pid;
     
 	public AbstractGraduate(RoleType type, Person person) {
 		super(type, person);
 		setGraduate(true);
+		pid = "";
 	}
 }

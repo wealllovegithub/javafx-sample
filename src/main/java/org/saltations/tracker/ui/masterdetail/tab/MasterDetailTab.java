@@ -28,12 +28,6 @@ import com.panemu.tiwulfx.table.TableControl;
 public class MasterDetailTab<T>  extends Tab {
 	
 	/**
-	 * Class exemplar for use in introspection.
-	 */
-	
-	Class<T> clazz;
-
-	/**
 	 * Name of the properties to be displayed in the table columns
 	 */
 
@@ -66,11 +60,10 @@ public class MasterDetailTab<T>  extends Tab {
 	 * @param data
 	 */
 	
-	public MasterDetailTab(String name, Class<T> clazz, List<String> columnPropertyNames, LiveData<T> data) {
+	public MasterDetailTab(String name, List<String> columnPropertyNames, LiveData<T> data) {
 	
 		super(name);
 		
-		this.clazz = clazz;
 		this.bus = new EventBus();
 
 		/*
@@ -82,13 +75,13 @@ public class MasterDetailTab<T>  extends Tab {
 		 * Configure the subject Table 
 		 */
 
-		table = new  MDTable<T>((Class<T>) clazz, bus, columnPropertyNames, data);
+		table = new  MDTable<T>((Class<T>) data.exemplar().getClass(), bus, columnPropertyNames, data);
 		
 		/*
 		 * Construct the detail form for editing.
 		 */
 		
-		detail = new DetailForm<T>(bus);
+		detail = new DetailForm<T>(bus, data.exemplar());
 		
 		/*
 		 * Throw it all into the 

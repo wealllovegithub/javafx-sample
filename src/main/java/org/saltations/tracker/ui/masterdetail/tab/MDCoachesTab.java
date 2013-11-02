@@ -14,7 +14,7 @@ public class MDCoachesTab extends MasterDetailTab<Coach> {
 	static List<String> defaultPropertyNames = Arrays.asList("first","called","last", "street1", "street2", "city","state","postalCode");
 	
 	public MDCoachesTab(List<String> propertyNamesInOrder) {
-		super("Coaches", Coach.class, (!propertyNamesInOrder.isEmpty()) ? propertyNamesInOrder : defaultPropertyNames, new CoachLiveData());
+		super("Coaches", (!propertyNamesInOrder.isEmpty()) ? propertyNamesInOrder : defaultPropertyNames, new CoachLiveData());
 	}
 	
 }

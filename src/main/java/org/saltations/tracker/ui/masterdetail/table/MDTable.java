@@ -38,6 +38,7 @@ public class MDTable<T> extends TableControl<T> {
 	 */
 	
 	public MDTable(Class<T> recordClass, EventBus bus, List<String> columnPropertyNames, LiveData<T> data) {
+		
 		super(recordClass);
 		this.bus = bus;
 		
@@ -79,11 +80,10 @@ public class MDTable<T> extends TableControl<T> {
 		}
 
 		MDTableController<T> tableController = new MDTableController<T>(bus, data);
-		
-		super.setController(tableController);
+
 		super.setRecordClass((Class<T>) recordClass);
+		super.setController(tableController);
 		super.autosize();
-		
 	}
 	
 }

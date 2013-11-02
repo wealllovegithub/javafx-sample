@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+import com.dooapp.fxform.annotation.NonVisual;
 import com.eaio.uuid.UUID;
 
 /**
@@ -26,6 +27,7 @@ public abstract class AbstractRole implements Serializable, Role  {
 
 	private static final long serialVersionUID = 1L;
 	
+	@NonVisual
 	private UUID id = new UUID();
 
 	/**

@@ -18,9 +18,15 @@ public class ParticipantLiveData implements LiveData<Participant>{
 	public List<Participant> get() {
 		return Context.get().getParticipants();
 	}
-	
+
+	@Override
 	public void store() {
 		Context.store();
 	};
 
+	@Override
+	public Participant exemplar() {
+		return new Participant();
+	}
+	
 }

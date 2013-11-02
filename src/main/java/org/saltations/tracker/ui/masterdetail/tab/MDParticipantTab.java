@@ -14,7 +14,7 @@ public class MDParticipantTab extends MasterDetailTab<Participant> {
 	static List<String> defaultPropertyNames = Arrays.asList("first","called","last", "street1", "street2", "city","state","postalCode");
 	
 	public MDParticipantTab(List<String> propertyNamesInOrder) {
-		super("Participants", Participant.class, (!propertyNamesInOrder.isEmpty()) ? propertyNamesInOrder : defaultPropertyNames, new ParticipantLiveData());
+		super("Participants", (!propertyNamesInOrder.isEmpty()) ? propertyNamesInOrder : defaultPropertyNames, new ParticipantLiveData());
 	}
 
 }

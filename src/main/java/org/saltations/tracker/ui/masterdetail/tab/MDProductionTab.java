@@ -14,7 +14,7 @@ public class MDProductionTab extends MasterDetailTab<Production> {
 	static List<String> defaultPropertyNames = Arrays.asList("first","called","last", "street1", "street2", "city","state","postalCode");
 	
 	public MDProductionTab(List<String> propertyNamesInOrder) {
-		super("Production", Production.class, (!propertyNamesInOrder.isEmpty()) ? propertyNamesInOrder : defaultPropertyNames, new ProductionLiveData());
+		super("Production", (!propertyNamesInOrder.isEmpty()) ? propertyNamesInOrder : defaultPropertyNames, new ProductionLiveData());
 	}
 	
 }

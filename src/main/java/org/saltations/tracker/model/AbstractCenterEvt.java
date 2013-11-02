@@ -14,7 +14,8 @@ import org.joda.time.DateTime;
 @Data
 public class AbstractCenterEvt extends AbstractEvt {
 
-	private boolean guestEvt;
+	
+	private Boolean guestEvt;
 
 	private Person leader;
 

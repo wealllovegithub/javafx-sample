@@ -13,5 +13,9 @@ public interface LiveData<T> {
 
 	public List<T> get();
 	
+	public T exemplar();
+	
 	public void store();
+	
+	
 }
