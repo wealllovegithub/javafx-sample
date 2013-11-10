@@ -9,10 +9,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.List;
 
 import javafx.scene.control.TableColumn.SortType;
-import lombok.Data;
-import lombok.Getter;
 
-import org.saltations.controller.Context;
 import org.saltations.tracker.ui.masterdetail.MDRequestEditEvt;
 
 import com.google.common.eventbus.EventBus;

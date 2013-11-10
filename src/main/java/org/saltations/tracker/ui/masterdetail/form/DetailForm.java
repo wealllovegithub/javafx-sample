@@ -1,17 +1,30 @@
 package org.saltations.tracker.ui.masterdetail.form;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
+import java.text.MessageFormat;
 import java.util.List;
+import java.util.Set;
 
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.Label;
+import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.BeanUtilsBean2;
+import org.saltations.tracker.infra.PropertyEval;
 import org.saltations.tracker.ui.masterdetail.MDRequestEditEvt;
+import org.saltations.tracker.ui.table.controller.LiveData;
+import org.tbee.javafx.scene.layout.MigPane;
 
-import uk.co.it.modular.beans.BeanProperty;
-import uk.co.it.modular.beans.BeanUtils;
-
+import com.google.common.collect.Sets;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import com.panemu.tiwulfx.form.CheckBoxControl;
+import com.panemu.tiwulfx.form.Form;
+import com.panemu.tiwulfx.form.NumberControl;
+import com.panemu.tiwulfx.form.TextControl;
+import com.panemu.tiwulfx.table.CheckBoxColumn;
+import com.panemu.tiwulfx.table.NumberColumn;
 
 /**
  * The {@link DetailForm} is responsible for displaying, editing and saving the contents for a POJO of type <T>    
@@ -20,50 +33,93 @@ import com.google.common.eventbus.Subscribe;
  *
  * @param <T> Type of the POJO to be edited.
  */
-
-public class DetailForm<T> extends GridPane {
+@Slf4j
+public class DetailForm<T> extends MigPane {
 
 	private final EventBus bus;
 	
 	private T record;
 
-	public DetailForm(EventBus bus, T exemplar)
+	public DetailForm(EventBus bus, List<String> toBeDisplayed, LiveData<T> data)
 	{
 		super();
 		
 		this.bus = bus;
-		this.record = exemplar;
-
-		/*
-		 * Walk through the properties and create the form.
-		 */
+		this.record = data.exemplar();
 		
-		List<BeanProperty> properties = BeanUtils.propertyList(exemplar);
-		
-		for (BeanProperty beanProperty : properties) {
-			
+		try {
 			/*
-			 * For each property pick an appropriate control, lable and tooltip.  
+			 * Check that all the property names we are looking for are also in the list of known properties.  
 			 */
 			
-			if (beanProperty.isString())
+			@SuppressWarnings("unchecked")
+			Set<String> beanProperties = (Set<String>) BeanUtilsBean.getInstance().describe(data.exemplar()).keySet();
+			
+			Set<String> unknownProperties = Sets.difference(Sets.newHashSet(toBeDisplayed), beanProperties);
+			
+			if ( !unknownProperties.isEmpty() )
 			{
-				TextField field = new TextField(beanProperty.getName());
-				field.setText("example");
-				field.setEditable(true);
-				getChildren().add(field);
+				log.error(MessageFormat.format("Some properties that were requested to be displayed have not been found : {0}", unknownProperties));
+				
+				throw new IllegalArgumentException();
 			}
 			
-//			    private CheckBoxControl chkAlive;
-//			    private ComboBoxControl<String> cmbBirthPlace;
-//			    private ChoiceBoxControl<Character> cmbGender;
-//			    private LookupControl<Insurance> lkupInsurance;
-//			    private DateControl txtBirthDate;
-//			    private TextControl txtEmail;
-//			    private NumberControl<Integer> txtVersion;
-//			    private Form<Person> personForm;
+
+			/*
+			 * For each requested property, create a Label and a Entry point
+			 */
 			
+			
+			for (String propertyName : toBeDisplayed) {
+
+				PropertyDescriptor descriptor = BeanUtilsBean2.getInstance().getPropertyUtils().getPropertyDescriptor(data.exemplar(), propertyName);
+
+				PropertyEval eval = new PropertyEval(descriptor.getPropertyType());
+				
+				/*
+				 * Determine the type of the Control.
+				 */
+				
+				if (!eval.isInterface())
+				{
+					if (eval.isString())
+					{
+						Label label = new Label(descriptor.getDisplayName());
+						
+						TextControl control = new TextControl();
+						control.setPropertyName(propertyName);
+						
+						super.add(label);
+						super.add(control, "wrap");
+					}
+					else if (eval.isBoolean() )
+					{
+						Label label = new Label(descriptor.getDisplayName());
+						
+						CheckBoxControl control = new CheckBoxControl();
+						control.setPropertyName(propertyName);
+						
+						super.add(label);
+						super.add(control, "wrap");
+					}
+					else if (eval.isInteger() )
+					{
+						Label label = new Label(descriptor.getDisplayName());
+						
+						NumberControl<Integer> control = new NumberControl<Integer>();
+						control.setPropertyName(propertyName);
+						
+						super.add(label);
+						super.add(control, "wrap");
+					}
+				}
+			}
+		} catch (IllegalAccessException | InvocationTargetException
+				| NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		
 		bus.register(this);
 		
@@ -77,4 +133,14 @@ public class DetailForm<T> extends GridPane {
 	{
 //		super.setRecord(evt.getSubject());
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -3,19 +3,24 @@
  */
 package org.saltations.tracker.ui.masterdetail.table;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Set;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.BeanUtilsBean2;
+import org.saltations.tracker.infra.PropertyEval;
 import org.saltations.tracker.model.Participant;
 import org.saltations.tracker.ui.table.controller.LiveData;
 import org.saltations.tracker.ui.table.controller.MDTableController;
 
-import uk.co.it.modular.beans.BeanUtils;
-import uk.co.it.modular.beans.TypeProperty;
-
+import com.google.common.collect.Sets;
 import com.google.common.eventbus.EventBus;
 import com.panemu.tiwulfx.table.CheckBoxColumn;
 import com.panemu.tiwulfx.table.NumberColumn;
@@ -44,39 +49,63 @@ public class MDTable<T> extends TableControl<T> {
 		
 		bus.register(this);
 		
-		/*
-		 * Configure the columns to be display in the table.
-		 */
-
-		List<TypeProperty> properties = BeanUtils.propertyList((Class<T>) recordClass);
-		
-		for (String propertyName : columnPropertyNames) {
-		
-			TypeProperty property  = BeanUtils.get((Class<T>) recordClass, propertyName);
+		try {
+			/*
+			 * Check that all the property names we are looking for are also in the list of known properties.  
+			 */
 			
-			if (property == null )
+			@SuppressWarnings("unchecked")
+			Set<String> beanProperties = (Set<String>) BeanUtilsBean.getInstance().describe(data.exemplar()).keySet();
+			
+			Set<String> unknownProperties = Sets.difference(Sets.newHashSet(columnPropertyNames), beanProperties);
+			
+			if ( !unknownProperties.isEmpty() )
 			{
-				log.error(MessageFormat.format("Unable to find the requested property {0} in the {1} class. We are ignoring this property in generating the table", propertyName, Participant.class.getSimpleName()));
-			}
-			else {
+				log.error(MessageFormat.format("Some properties that were requested to be displayed have not been found : {0}", unknownProperties));
 				
-				if (property.isString())
+				throw new IllegalArgumentException();
+			}
+			
+
+			/*
+			 * For each requested property, create a Label and a Entry point
+			 */
+			
+			
+			for (String propertyName : columnPropertyNames) {
+
+				PropertyDescriptor descriptor = BeanUtilsBean2.getInstance().getPropertyUtils().getPropertyDescriptor(data.exemplar(), propertyName);
+
+				PropertyEval eval = new PropertyEval(descriptor.getPropertyType());
+				
+				/*
+				 * Determine the type of the Control.
+				 */
+				
+				if (!eval.isInterface())
 				{
-					super.addColumn(new TextColumn<T>(property.getName()));
-				}
-				else if (property.isBoolean() )
-				{
-					CheckBoxColumn<T> col = new CheckBoxColumn<T>(property.getName());
-					col.setRequired(true);
-					col.setLabel("Y", "N", "");
-					
-					super.addColumn(col);
-				}
-				else if (property.isInteger() )
-				{
-					super.addColumn(new NumberColumn<T, Integer>(property.getName(), Integer.class));
+					if (eval.isString())
+					{
+						super.addColumn(new TextColumn<T>(descriptor.getName()));
+					}
+					else if (eval.isBoolean() )
+					{
+						CheckBoxColumn<T> col = new CheckBoxColumn<T>(descriptor.getName());
+						col.setRequired(true);
+						col.setLabel("Y", "N", "");
+						
+						super.addColumn(col);
+					}
+					else if (eval.isInteger() )
+					{
+						super.addColumn(new NumberColumn<T, Integer>(descriptor.getName(), Integer.class));
+					}
 				}
 			}
+		} catch (IllegalAccessException | InvocationTargetException
+				| NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		MDTableController<T> tableController = new MDTableController<T>(bus, data);

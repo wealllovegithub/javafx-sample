@@ -81,7 +81,7 @@ public class MasterDetailTab<T>  extends Tab {
 		 * Construct the detail form for editing.
 		 */
 		
-		detail = new DetailForm<T>(bus, data.exemplar());
+		detail = new DetailForm<T>(bus, columnPropertyNames, data);
 		
 		/*
 		 * Throw it all into the 

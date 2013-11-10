@@ -29,6 +29,15 @@
 			<id>dynamic-jasper</id>
 			<url>http://archiva.fdvs.com.ar/repository/public1/</url>
 		</repository>
+		        <repository>
+            <id>sakai-maven</id>
+            <name>Sakai Maven Repo</name>
+            <layout>default</layout>
+            <url>http://source.sakaiproject.org/maven2</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
 	</repositories>
 
 	<organization>
@@ -146,22 +155,6 @@
 			<version>3.2</version>
 		</dependency>
 
-		<!-- Extracting Bean Information -->
-
-		<dependency>
-			<groupId>uk.co.modular-it</groupId>
-			<artifactId>bean-utils</artifactId>
-			<version>0.9.9</version>
-		</dependency>
-
-		<!-- POJO Mapping -->
-
-		<dependency>
-			<groupId>ma.glasnost.orika</groupId>
-			<artifactId>orika-core</artifactId>
-			<version>1.4.3</version>
-		</dependency>
-
 		<!-- Testing -->
 
 		<dependency>
@@ -176,12 +169,26 @@
 			<version>5.0.1.Final</version>
 		</dependency>
 
-<dependency>
-	<groupId>javax.validation</groupId>
-	<artifactId>validation-api</artifactId>
-	<version>1.1.0.Final</version>
-</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.1.0.Final</version>
+		</dependency>
             
+   	    <!-- Reflection Utils -->
+        <dependency>
+             <groupId>org.azeckoski</groupId>
+             <artifactId>reflectutils</artifactId>
+             <version>0.9.15</version>
+             <scope>compile</scope>
+        </dependency>
+                        
+		<dependency>
+			<groupId>org.jodd</groupId>
+			<artifactId>jodd-bean</artifactId>
+			<version>3.4.8</version>
+		</dependency>
+                                    
 	</dependencies>
 
 </project>
