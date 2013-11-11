@@ -12,6 +12,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Control;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
@@ -285,6 +286,9 @@ public class MainApp extends Application {
 		MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");
         Menu menuImport = new Menu("Import");
+        MenuItem importParticipants = new MenuItem("Participants");
+        menuImport.getItems().add(importParticipants);
+        
         Menu menuExport = new Menu("View");
 
         menuBar.getMenus().addAll(menuFile, menuImport, menuExport);
