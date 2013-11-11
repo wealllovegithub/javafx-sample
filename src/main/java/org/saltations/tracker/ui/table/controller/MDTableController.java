@@ -57,7 +57,7 @@ public class MDTableController<T> extends TableController<T> {
 
 		data.get().addAll(newRecords);
 		data.store();
-
+		
 		return data.get();
 	}
 
@@ -66,6 +66,7 @@ public class MDTableController<T> extends TableController<T> {
 		checkNotNull(updatedRecords);
 		checkArgument(updatedRecords.size() != 0);
 
+		
 		data.store();
 
 		return data.get();
@@ -87,4 +88,7 @@ public class MDTableController<T> extends TableController<T> {
 	public void doubleClick(T record) {
 		bus.post(new MDRequestEditEvt<T>(record));
 	}
+	
+
+	
 }

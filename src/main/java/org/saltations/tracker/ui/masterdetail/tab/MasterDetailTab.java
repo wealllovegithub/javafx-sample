@@ -9,7 +9,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.HBox;
 import lombok.extern.slf4j.Slf4j;
 
-import org.saltations.tracker.ui.masterdetail.form.DetailForm;
+import org.saltations.tracker.ui.masterdetail.form.AutoDetailForm;
 import org.saltations.tracker.ui.masterdetail.table.MDTable;
 import org.saltations.tracker.ui.table.controller.LiveData;
 import org.saltations.tracker.ui.table.controller.MDTableController;
@@ -43,7 +43,7 @@ public class MasterDetailTab<T>  extends Tab {
 	 * The detailed view of the POJO 
 	 */
 	
-	DetailForm<T>	detail;
+	AutoDetailForm<T>	detail;
 	
 	/**
 	 * Event Bus for managing communication among the parts 
@@ -81,7 +81,7 @@ public class MasterDetailTab<T>  extends Tab {
 		 * Construct the detail form for editing.
 		 */
 		
-		detail = new DetailForm<T>(bus, columnPropertyNames, data);
+		detail = new AutoDetailForm<T>(bus, columnPropertyNames, data, (MDTableController<T>) table.getController());
 		
 		/*
 		 * Throw it all into the 

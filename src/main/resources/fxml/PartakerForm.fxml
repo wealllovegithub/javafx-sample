@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.panemu.tiwulfx.form.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?scenebuilder-classpath-element /home/jmochel/Development/tiwulfx-demo/src/main/resources/com/panemu/tiwulfx/demo/ui/../../../../../../../tiwulfx/dist/tiwulfx.jar?>
+<?scenebuilder-classpath-element /home/jmochel/.m2/repository/com/panemu/tiwulfx/1.1/tiwulfx-1.1.jar?>
+
+<fx:root type="javafx.scene.layout.BorderPane" id="AnchorPane" maxHeight="-1.0" maxWidth="-1.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="586.0" prefWidth="527.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <center>
+    <Form fx:id="personForm" prefHeight="-1.0" prefWidth="300.0">
+      <children>
+        <GridPane hgap="10.0" prefHeight="-1.0" vgap="10.0">
+          <children>
+            <Label prefWidth="36.999908447265625" text="Name" GridPane.columnIndex="0" GridPane.rowIndex="0">
+              <GridPane.margin>
+                <Insets fx:id="x1" />
+              </GridPane.margin>
+            </Label>
+            <Label text="Email" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="1" />
+            <Label text="Insurance" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="6" />
+            <Label text="Birth Place" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="2" />
+            <Label text="Birth Date" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="3" />
+            <Label text="Gender" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="4" />
+            <Label text="Alive" GridPane.columnIndex="0" GridPane.margin="$x1" GridPane.rowIndex="5" />
+            <TextControl fx:id="txtName" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            <TextControl id="txtEamil" fx:id="txtEmail" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ComboBoxControl fx:id="cmbBirthPlace" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <DateControl fx:id="txtBirthDate" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ChoiceBoxControl fx:id="cmbGender" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <CheckBoxControl fx:id="chkAlive" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <LookupControl fx:id="lkupInsurance" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <TextControl fx:id="txtInsuranceName" editable="false" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <Label text="Version" GridPane.columnIndex="0" GridPane.rowIndex="10" />
+            <Label text="Weight" GridPane.columnIndex="0" GridPane.rowIndex="9" />
+            <Label text="Visit" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+            <NumberControl fx:id="txtVisit" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <NumberControl fx:id="txtWeight" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <NumberControl fx:id="txtVersion" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+          </children>
+          <columnConstraints>
+            <ColumnConstraints hgrow="NEVER" minWidth="10.0" prefWidth="-1.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          </columnConstraints>
+          <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+          </padding>
+          <rowConstraints>
+            <RowConstraints maxHeight="22.0" prefHeight="22.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="22.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="22.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="22.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="22.0" minHeight="10.0" prefHeight="22.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="16.0" minHeight="10.0" prefHeight="16.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-1.0" minHeight="10.0" prefHeight="-1.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="-1.0" minHeight="10.0" prefHeight="-1.0" vgrow="SOMETIMES" />
+          </rowConstraints>
+        </GridPane>
+      </children>
+    </Form>
+  </center>
+  <top>
+    <ToolBar styleClass="table-toolbar">
+      <items>
+        <Button fx:id="btnAdd" disable="false" mnemonicParsing="false" styleClass="flat-button">
+          <graphic>
+            <ImageView fitHeight="0.0" fitWidth="0.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../../../../../../../home/jmochel/Development/tiwulfx-demo/src/main/resources/images/add.png" preserveRatio="false" smooth="false" />
+              </image>
+            </ImageView>
+          </graphic>
+        </Button>
+        <Button fx:id="btnEdit" disable="false" mnemonicParsing="false" styleClass="flat-button">
+          <graphic>
+            <ImageView fitHeight="0.0" fitWidth="0.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../../../../../../../home/jmochel/Development/tiwulfx-demo/src/main/resources/images/edit.png" preserveRatio="false" smooth="false" />
+              </image>
+            </ImageView>
+          </graphic>
+        </Button>
+        <Button fx:id="btnSave" disable="true" mnemonicParsing="false" styleClass="flat-button">
+          <graphic>
+            <ImageView fitHeight="0.0" fitWidth="0.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../../../../../../../home/jmochel/Development/tiwulfx-demo/src/main/resources/images/save.png" preserveRatio="false" smooth="false" />
+              </image>
+            </ImageView>
+          </graphic>
+        </Button>
+      </items>
+    </ToolBar>
+  </top>
+</fx:root>

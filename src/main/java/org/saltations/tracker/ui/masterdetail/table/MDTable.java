@@ -17,11 +17,15 @@ import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.BeanUtilsBean2;
 import org.saltations.tracker.infra.PropertyEval;
 import org.saltations.tracker.model.Participant;
+import org.saltations.tracker.ui.masterdetail.MDTableRefreshEvt;
 import org.saltations.tracker.ui.table.controller.LiveData;
 import org.saltations.tracker.ui.table.controller.MDTableController;
 
+import sun.org.mozilla.javascript.internal.Context;
+
 import com.google.common.collect.Sets;
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import com.panemu.tiwulfx.table.CheckBoxColumn;
 import com.panemu.tiwulfx.table.NumberColumn;
 import com.panemu.tiwulfx.table.TableControl;
@@ -46,6 +50,8 @@ public class MDTable<T> extends TableControl<T> {
 		
 		super(recordClass);
 		this.bus = bus;
+		
+		super.setCache(false);
 		
 		bus.register(this);
 		
@@ -113,6 +119,18 @@ public class MDTable<T> extends TableControl<T> {
 		super.setRecordClass((Class<T>) recordClass);
 		super.setController(tableController);
 		super.autosize();
+	}
+	
+	@Subscribe
+	public void refreshTable(MDTableRefreshEvt<T> evt)
+	{
+	       super.reload();
+		
+       boolean visible = super.getTableView().getColumns().get(0).isVisible();
+       super.getTableView().getColumns().get(0).setVisible(false);
+       super.getTableView().getColumns().get(0).setVisible(true);
+       super.getTableView().getColumns().get(0).setVisible(visible);
+		
 	}
 	
 }
