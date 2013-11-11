@@ -11,7 +11,7 @@ import org.saltations.tracker.ui.table.controller.ParticipantLiveData;
 @Slf4j
 public class MDParticipantTab extends MasterDetailTab<Participant> {
 
-	static List<String> defaultPropertyNames = Arrays.asList("first","called","last", "street1", "street2", "city","state","postalCode");
+	static List<String> defaultPropertyNames = Arrays.asList("first","called","last", "city","state", "postalCode");
 	
 	public MDParticipantTab(List<String> propertyNamesInOrder) {
 		super("Participants", (!propertyNamesInOrder.isEmpty()) ? propertyNamesInOrder : defaultPropertyNames, new ParticipantLiveData());

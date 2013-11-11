@@ -9,19 +9,17 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Set;
 
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.BeanUtilsBean2;
 import org.saltations.tracker.infra.PropertyEval;
-import org.saltations.tracker.model.Participant;
 import org.saltations.tracker.ui.masterdetail.MDTableRefreshEvt;
 import org.saltations.tracker.ui.table.controller.LiveData;
 import org.saltations.tracker.ui.table.controller.MDTableController;
-
-import sun.org.mozilla.javascript.internal.Context;
 
 import com.google.common.collect.Sets;
 import com.google.common.eventbus.EventBus;
@@ -76,8 +74,7 @@ public class MDTable<T> extends TableControl<T> {
 			/*
 			 * For each requested property, create a Label and a Entry point
 			 */
-			
-			
+
 			for (String propertyName : columnPropertyNames) {
 
 				PropertyDescriptor descriptor = BeanUtilsBean2.getInstance().getPropertyUtils().getPropertyDescriptor(data.exemplar(), propertyName);
@@ -92,7 +89,9 @@ public class MDTable<T> extends TableControl<T> {
 				{
 					if (eval.isString())
 					{
-						super.addColumn(new TextColumn<T>(descriptor.getName()));
+						TextColumn col = new TextColumn<T>(descriptor.getName());
+						
+						super.addColumn(col);
 					}
 					else if (eval.isBoolean() )
 					{
@@ -108,6 +107,15 @@ public class MDTable<T> extends TableControl<T> {
 					}
 				}
 			}
+			
+			
+		    for (Node n: super.getTableView().lookupAll(".column-header > .label")) {
+		        if (n instanceof Label) {
+		          Label label = (Label) n;
+		          label.setRotate(270);
+		        }
+		      }
+			
 		} catch (IllegalAccessException | InvocationTargetException
 				| NoSuchMethodException e) {
 			// TODO Auto-generated catch block
@@ -120,17 +128,22 @@ public class MDTable<T> extends TableControl<T> {
 		super.setController(tableController);
 		super.autosize();
 	}
+
+	/**
+	 * Refreshes the table when the data has changed.
+	 * 
+	 * @param evt
+	 */
 	
 	@Subscribe
 	public void refreshTable(MDTableRefreshEvt<T> evt)
 	{
-	       super.reload();
+	   super.reload();
 		
        boolean visible = super.getTableView().getColumns().get(0).isVisible();
        super.getTableView().getColumns().get(0).setVisible(false);
        super.getTableView().getColumns().get(0).setVisible(true);
        super.getTableView().getColumns().get(0).setVisible(visible);
-		
 	}
 	
 }

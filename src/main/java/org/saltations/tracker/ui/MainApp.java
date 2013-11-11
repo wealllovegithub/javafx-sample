@@ -3,8 +3,11 @@ package org.saltations.tracker.ui;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
 import javafx.geometry.Side;
 import javafx.scene.Scene;
@@ -20,8 +23,12 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
+import javax.validation.ConstraintViolation;
+
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,8 +38,9 @@ import org.saltations.controller.Context;
 import org.saltations.tracker.model.Coach;
 import org.saltations.tracker.model.HeadCoach;
 import org.saltations.tracker.model.Participant;
-import org.saltations.tracker.model.Person;
+import org.saltations.tracker.model.Production;
 import org.saltations.tracker.model.Program;
+import org.saltations.tracker.services.ImportServices;
 import org.saltations.tracker.ui.masterdetail.tab.MDCoachesTab;
 import org.saltations.tracker.ui.masterdetail.tab.MDHeadCoachesTab;
 import org.saltations.tracker.ui.masterdetail.tab.MDParticipantAttendanceCommunicationTab;
@@ -45,6 +53,7 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.config.EmbeddedConfiguration;
 import com.google.common.base.Preconditions;
+import com.panemu.tiwulfx.dialog.MessageDialogBuilder;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
@@ -57,6 +66,18 @@ public class MainApp extends Application {
 	 */
 	
 	private Config conf = ConfigFactory.load();
+	
+	/*
+	 * General Use File Chooser
+	 */
+	
+	final FileChooser fileChooser = new FileChooser();
+	  
+	/**
+	 * General use Stage.
+	 */
+
+	private Stage primaryStage;
 	
 	/**
 	 * Main Application 
@@ -185,44 +206,42 @@ public class MainApp extends Application {
 			List<? extends Config> sessionConfigs = conf.getConfigList("program.courses.selp.sessions");
 						
 			for (Config sessionConfig : sessionConfigs) {
-				
 				System.out.println(sessionConfig.getString("name"));
 				System.out.println(sessionConfig.getString("date"));
-				
 			}
 			
-			/*
-			 * People import
-			 */
-			
-			
-			/*
-			 * 9 Coaches
-			 */
-			
-			
-			int i = 0;
-			
-			for (String[]  row : people) {
-				
-				Person person = new Person(row[0], row[1], row[2]);
-				
-				if ( i <= 2 )
-				{
-					HeadCoach hc = new HeadCoach(person);
-					program.getHeadCoaches().add(hc);
-				}
-				else if (i <= 9) {
-					Coach c = new Coach(person);
-					program.getCoaches().add(c);
-				}
-				else {
-					Participant p = new Participant(person);
-					program.getParticipants().add(p);
-				}
-
-				i++;
-			} 
+//			/*
+//			 * People import
+//			 */
+//			
+//			
+//			/*
+//			 * 9 Coaches
+//			 */
+//			
+//			
+//			int i = 0;
+//			
+//			for (String[]  row : people) {
+//				
+//				Person person = new Person(row[0], row[1], row[2]);
+//				
+//				if ( i <= 2 )
+//				{
+//					HeadCoach hc = new HeadCoach(person);
+//					program.getHeadCoaches().add(hc);
+//				}
+//				else if (i <= 9) {
+//					Coach c = new Coach(person);
+//					program.getCoaches().add(c);
+//				}
+//				else {
+//					Participant p = new Participant(person);
+//					program.getParticipants().add(p);
+//				}
+//
+//				i++;
+//			} 
 			
 			objStore.store(program);
 			objStore.commit();
@@ -238,6 +257,8 @@ public class MainApp extends Application {
 	public void start(Stage primaryStage) {
 		
 		primaryStage.setTitle("Possibility Tracker");
+		
+		this.primaryStage = primaryStage;
 		
 		/*
 		 * Root Pane.
@@ -286,8 +307,102 @@ public class MainApp extends Application {
 		MenuBar menuBar = new MenuBar();
         Menu menuFile = new Menu("File");
         Menu menuImport = new Menu("Import");
+        
+        /*
+         * Participant Import 
+         */
+        
         MenuItem importParticipants = new MenuItem("Participants");
+        importParticipants.setOnAction(       
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                        File file = fileChooser.showOpenDialog(primaryStage);
+                        if (file != null) {
+                        	
+                        	Set<ConstraintViolation<Participant>> violations = ImportServices.importParticipants(file);
+                        	
+                        	if (!violations.isEmpty())
+                        	{
+                        		MessageDialogBuilder.info().message(violations.toString());
+                        	}
+                        }
+                    }
+                });
         menuImport.getItems().add(importParticipants);
+        
+        
+        /*
+         * Coach Import 
+         */
+        
+        MenuItem importCoaches = new MenuItem("Coaches");
+        importCoaches.setOnAction(       
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                        File file = fileChooser.showOpenDialog(primaryStage);
+                        if (file != null) {
+                        	
+                        	Set<ConstraintViolation<Coach>> violations = ImportServices.importCoaches(file);
+                        	
+                        	if (!violations.isEmpty())
+                        	{
+                        		MessageDialogBuilder.info().message(violations.toString());
+                        	}
+                        }
+                    }
+                });
+        menuImport.getItems().add(importCoaches);
+        
+        /*
+         * HeadCoach Import 
+         */
+        
+        MenuItem importHeadCoaches = new MenuItem("HeadCoaches");
+        importHeadCoaches.setOnAction(       
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                        File file = fileChooser.showOpenDialog(primaryStage);
+                        if (file != null) {
+                        	
+                        	Set<ConstraintViolation<HeadCoach>> violations = ImportServices.importHeadCoaches(file);
+                        	
+                        	if (!violations.isEmpty())
+                        	{
+                        		MessageDialogBuilder.info().message(violations.toString());
+                        	}
+                        }
+                    }
+                });
+        menuImport.getItems().add(importHeadCoaches);
+        
+        
+        /*
+         * Production Import 
+         */
+        
+        MenuItem importProduction = new MenuItem("Production");
+        importProduction.setOnAction(       
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(final ActionEvent e) {
+                        File file = fileChooser.showOpenDialog(primaryStage);
+                        if (file != null) {
+                        	
+                        	Set<ConstraintViolation<Production>> violations = ImportServices.importProduction(file);
+                        	
+                        	if (!violations.isEmpty())
+                        	{
+                        		MessageDialogBuilder.info().message(violations.toString());
+                        	}
+                        }
+                    }
+                });
+        menuImport.getItems().add(importProduction);
+        
+        
         
         Menu menuExport = new Menu("View");
 
