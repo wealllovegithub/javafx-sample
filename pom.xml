@@ -176,17 +176,12 @@
 		</dependency>
 
 		<!-- Reflection Utils -->
+		
 		<dependency>
 			<groupId>org.azeckoski</groupId>
 			<artifactId>reflectutils</artifactId>
 			<version>0.9.15</version>
 			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jodd</groupId>
-			<artifactId>jodd-bean</artifactId>
-			<version>3.4.8</version>
 		</dependency>
 
 		<!-- CSV Import -->

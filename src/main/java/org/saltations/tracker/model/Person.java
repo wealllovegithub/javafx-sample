@@ -2,8 +2,6 @@ package org.saltations.tracker.model;
 
 import java.util.Map;
 
-import org.saltations.tracker.infra.Display;
-
 import lombok.Data;
 import lombok.NonNull;
 
@@ -16,16 +14,13 @@ public class Person {
 	
 	final public static Person UNKNOWN = new Person("John/Jane","Doe","");
 
-	@Display(name = "First", desc = "The persons first name.")
 	@NonNull
 	private String first;
 
 	@NonNull
-	@Display(name = "Last", desc = "The persons last name.")
 	private String last;
 
 	@NonNull
-	@Display(name = "Likes", desc = "The name they liked to be called.")
 	private String called;
 
 	private Location location;

@@ -11,7 +11,7 @@ import org.saltations.tracker.ui.table.controller.ProductionLiveData;
 @Slf4j
 public class MDProductionTab extends MasterDetailTab<Production> {
 
-	static List<String> defaultPropertyNames = Arrays.asList("first","called","last", "street1", "street2", "city","state","postalCode");
+	static List<String> defaultPropertyNames = Arrays.asList("pid","person.first","person.called","person.last", "person.location.city","person.location.state", "person.location.postalCode");
 	
 	public MDProductionTab(List<String> propertyNamesInOrder) {
 		super("Production", (!propertyNamesInOrder.isEmpty()) ? propertyNamesInOrder : defaultPropertyNames, new ProductionLiveData());

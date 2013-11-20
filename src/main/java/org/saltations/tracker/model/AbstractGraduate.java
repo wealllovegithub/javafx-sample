@@ -23,7 +23,7 @@ public abstract class AbstractGraduate extends AbstractRole {
      * PERSON ID - It matches up with the LM PID to simplify verification and
      * futures tracking. It is not used as the identifier of record.
      */
-
+	
     private String pid;
     
 	public AbstractGraduate(RoleType type, Person person) {

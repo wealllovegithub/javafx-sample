@@ -1,20 +1,20 @@
 package org.saltations.tracker.model;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.Set;
 
-import jodd.bean.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.beanutils.BeanUtilsBean2;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.saltations.tracker.infra.Display;
 import org.testng.annotations.Test;
+import org.testng.collections.Maps;
+
+import com.google.common.collect.ImmutableSet;
 
 @Slf4j
 public class FieldAndPropertyReflectionTest extends TestBase {
@@ -28,6 +28,8 @@ public class FieldAndPropertyReflectionTest extends TestBase {
 		
 		Object bean = Participant.class.newInstance();
 		
+		ImmutableSet<String> nonCompoundTypes = ImmutableSet.of("Object","Boolean", "Integer", "List", "Array", "Set");
+		
 		@SuppressWarnings("unchecked")
 		Map<String,?> beanProperties = (Map<String,?>) BeanUtilsBean.getInstance().describe(bean);
 		
@@ -39,82 +41,88 @@ public class FieldAndPropertyReflectionTest extends TestBase {
 			
 			log.info(MessageFormat.format("{0} - {1}", propertyType.getSimpleName(), propertyName));
 			
-//			Class propertyType = BeanUtil.getDeclaredPropertyType(bean, propertyName);
 			
-			Display display = BeanUtilsBean2.getInstance().getPropertyUtils().getPropertyDescriptor(bean, propertyName).getPropertyType().getAnnotation(Display.class);
-			
-			String displayName = propertyName;
-			String desc = "";
-			
-			if (display != null)
+			if (!nonCompoundTypes.contains(propertyType.getSimpleName()))
 			{
-				if (!display.name().isEmpty())
-				{
-					displayName = display.name();
-				}
-				
-				if (!display.desc().isEmpty())
-				{
-					desc = display.desc();
-				}
+				/*
+				 * This is a compound type
+				 */
 			}
-			
-			log.info(MessageFormat.format("		{0} - {1}", displayName, desc));
-
 		}
 		
-//		for (Class<?> clazz : clazzes) {
-//
-//			if (!clazz.isInterface()) {
-//
-//				log.info("[" + clazz.getSimpleName() + "]");
-//
-//				ClassFields<?> classFields = ReflectUtils
-//						.getInstance().analyzeClass(clazz);
-//
-//				for (String fieldName : classFields.getFieldNames()) {
-//
-//					log.info(fieldName);
-//
-//					/*
-//					 * get the fields annotations.
-//					 */
-//
-//					Set<Annotation> annotations = classFields
-//							.getFieldAnnotations(fieldName);
-//
-//					for (Annotation annotation : annotations) {
-//
-//						log.info("	" + annotation.getClass().getSimpleName());
-//
-//						if (annotation.annotationType().isAssignableFrom(
-//								Display.class)) {
-//							Display display = (Display) annotation;
-//
-//							String displayName = display.name().isEmpty() ? fieldName
-//									: display.name();
-//
-//							log.info("		" + displayName);
-//
-//							String desc = display.desc();
-//
-//							log.info("		" + displayName);
-//
-//							Class<?> fieldType = classFields
-//									.getFieldType(fieldName);
-//
-//							if (fieldType.isAssignableFrom(Boolean.class)) {
-//
-//							}
-//
-//						}
-//
-//					}
-//
-//				}
-//
-//			}
+		
 
-//		}
+		Map<String, Field> mappedFields = extractPropertiesAsFields(Participant.class, "");
+		
+		
+		Set<String> keys = mappedFields.keySet();
+		
+		for (String key : keys) {
+			
+			log.info(MessageFormat.format(" ---- {0} -----", key));
+			
+		}
 	}
+	
+	
+	
+	protected Map<String,Field> extractPropertiesAsFields(Class<?> clazz, String prefix)
+	{
+		Map<String,Field> mappedFields = Maps.newHashMap();
+		
+		ImmutableSet<String> nonCompoundTypes = ImmutableSet.of("Class","Object","Boolean", "Integer", "List", "Array", "Set");
+		
+		try {
+			Object bean = clazz.newInstance();
+			
+			@SuppressWarnings("unchecked")
+			Map<String,?> beanProperties = (Map<String,?>) BeanUtilsBean.getInstance().describe(bean);
+			
+			Set<String> propertyNames = beanProperties.keySet();
+			
+			for (String propertyName : propertyNames) {
+
+				Class<?> propertyType = PropertyUtils.getPropertyType(bean, propertyName);
+				
+				if (Serializable.class.isAssignableFrom(propertyType) && !nonCompoundTypes.contains(propertyType.getSimpleName()))
+				{
+					/*
+					 * This is a compound type
+					 */
+					
+					Map<String,Field> nestedMappedFields = extractPropertiesAsFields(propertyType, propertyName + ".");
+					
+					mappedFields.putAll(nestedMappedFields);
+				}
+				else {
+					
+					Field field = clazz.getField(propertyName);
+					
+					String key = prefix.isEmpty() ? propertyName : prefix + propertyName;  
+					
+					mappedFields.put(key, field);
+				}
+				
+			}
+			
+
+			
+			
+		} catch (InstantiationException | IllegalAccessException
+				| InvocationTargetException | NoSuchMethodException | NoSuchFieldException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return mappedFields;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

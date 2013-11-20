@@ -6,6 +6,8 @@ package org.saltations.controller;
 import org.saltations.tracker.model.Program;
 
 import com.db4o.ObjectContainer;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 
 /**
  * @author jmochel
@@ -25,8 +27,14 @@ public class Context {
 
 	private static ObjectContainer objStore = null;
 
+	
+	private static Config conf = ConfigFactory.load();
 
 	
+	public static Config getConf() {
+		return conf;
+	}
+
 	public static void set(Program aProgram)
 	{
 		program = aProgram;

@@ -7,8 +7,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import org.saltations.tracker.infra.Display;
-
 /**
  * @author jmochel
  *
@@ -19,19 +17,14 @@ import org.saltations.tracker.infra.Display;
 @EqualsAndHashCode(callSuper=true)
 public class AbstractPartaker extends AbstractGraduate {
 
-	@Display(name="Agreement and Waiver In")
 	private Boolean handedInAgreementAndWaiver = false;
 
-	@Display(name="Attendance Form In")
 	private Boolean handedInAttendanceCommunication = false;
 	
-	@Display(name="Participation Information In")
 	private Boolean handedInParticipationInformationForm  = false;
 	
-	@Display(name="Participation Worksheet In")
 	private Boolean handedInParticipationWorksheet  = false;
 	
-	@Display(name="Scheduled Coaching Call")
 	private Boolean scheduledCoachingCall  = false;
 	
 	private Boolean scheduledFuturesMeeting  = false;

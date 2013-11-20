@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import org.saltations.tracker.infra.Display;
-
 import com.eaio.uuid.UUID;
 
 /**
@@ -42,7 +40,6 @@ public abstract class AbstractRole implements Serializable, Role  {
 	 */
 	
 	@NonNull
-	@Display
 	private Person person;
 
     /**

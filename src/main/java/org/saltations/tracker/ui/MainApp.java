@@ -85,71 +85,13 @@ public class MainApp extends Application {
 	
 	public MainApp()
 	{
-		String[][] people = {
-			
-				{ "Brian","Brian","Albere"             },
-				{ "Michelle","Michelle","Belliveau"    },
-				{ "Leon","Laddie","Benton"             },
-				{ "Michael","Mike","Bosco"             },
-				{ "Irene","Irene","Bratsis"            },
-				{ "Christopher","Chris","Brooks"       },
-				{ "Sabrina","Sabrina","Brundage"       },
-				{ "Chandra","Chandra","Cantor"         },
-				{ "Caroline","Caroline","Caruso"       },
-				{ "Deanna","Deanna","Coyle"            },
-				{ "Daniela","Daniela","Dana"           },
-				{ "Lisa","Lisa","Delisio"              },
-				{ "Dillan","Dillan","DiGiovanni"       },
-				{ "Amanda","Amanda","Duclos"           },
-				{ "Debbie","Debbie","Duclos"           },
-				{ "Allison","Allison","Genetelli"      },
-				{ "Robert","Robb","Genetelli"          },
-				{ "Susan","Susan","Glass"              },
-				{ "Jessica","Jess","Guidaboni"         },
-				{ "Janette","Janette","Gustafson"      },
-				{ "Richard","Rich","Gustafson"         },
-				{ "Larissa","Larissa","Haynes"         },
-				{ "David","David","Hill"               },
-				{ "Jeffrey","Jeff","Hollett"           },
-				{ "Sara","Sara","Howell"               },
-				{ "Katharine","Kate","Jackson"         },
-				{ "Justin","Justin","Jarboe"           },
-				{ "Nancy","Nancy","Kalgren"            },
-				{ "James","Jim","Kaloutas"             },
-				{ "Dharam-Jot","Dharam-Jot","Khalsa"   },
-				{ "Brian","Brian","Kitchens"           },
-				{ "Kristina","Kristina","Knight"       },
-				{ "Debra","Debra","Koczon"             },
-				{ "Francois","Francois","Laberge"      },
-				{ "Caryn","Caryn","Laviv"              },
-				{ "Ekaterina","Katrina","Lemberg"      },
-				{ "Stacy","Stacy","Ludden"             },
-				{ "Nancy","Nancy","Mahoney"            },
-				{ "Dennis","Dennis","McGuire"          },
-				{ "Sarah","Sarah","Mercado"            },
-				{ "Estera","Estera","Mlch"             },
-				{ "Trent","Trent","Mochel"             },
-				{ "Samantha","Samantha","Moland"       },
-				{ "Anna","Anna","Morrison"             },
-				{ "Jakiel","Jakiel","Moses-Harris"     },
-				{ "Jeremy","jeremy","Muldavin"         },
-				{ "Benjamin","Ben","Norman"            },
-				{ "Ruth","Ruth","Norton"               },
-				{ "Natalia","Natalia","Novicka"        },
-				{ "Leslie","Leslie","Piela"            },
-				{ "Michael","Mike","Piela"             },
-				{ "Renee","Renee","Santalo"            },
-				{ "David","Dave","Shinnlinger"         },
-				{ "Charles","Charlie","Stevenson"      },
-				{ "Jeanne","JeanneLouise","Washington" } 
-		};
 		
 		
 		/*
 		 * Get the location of the data storage.
 		 */
 		
-		String fileName = conf.getString("app.datastore-location");
+		String fileName = conf.getString("program.app.datastore-location");
 		
 		/*
 		 * Configure the data storage. 
@@ -209,39 +151,6 @@ public class MainApp extends Application {
 				System.out.println(sessionConfig.getString("name"));
 				System.out.println(sessionConfig.getString("date"));
 			}
-			
-//			/*
-//			 * People import
-//			 */
-//			
-//			
-//			/*
-//			 * 9 Coaches
-//			 */
-//			
-//			
-//			int i = 0;
-//			
-//			for (String[]  row : people) {
-//				
-//				Person person = new Person(row[0], row[1], row[2]);
-//				
-//				if ( i <= 2 )
-//				{
-//					HeadCoach hc = new HeadCoach(person);
-//					program.getHeadCoaches().add(hc);
-//				}
-//				else if (i <= 9) {
-//					Coach c = new Coach(person);
-//					program.getCoaches().add(c);
-//				}
-//				else {
-//					Participant p = new Participant(person);
-//					program.getParticipants().add(p);
-//				}
-//
-//				i++;
-//			} 
 			
 			objStore.store(program);
 			objStore.commit();
@@ -515,7 +424,7 @@ public class MainApp extends Application {
 		
 		TreeItem<String> treeRoot = new TreeItem<String>("Dashboard");	
 		
-		List<String>  axns = conf.getStringList("app.happenings.WORK_DAY_I.axns");
+		List<String>  axns = conf.getStringList("program.ui.WORK_DAY_I.axns");
 		TreeItem<String> axnItem = new TreeItem<String>("Actions");
 		
 		for (String axn : axns) {
@@ -524,7 +433,7 @@ public class MainApp extends Application {
 
 		treeRoot.getChildren().add(axnItem);
 		
-		List<String>  displays = conf.getStringList("app.happenings.WORK_DAY_I.displays");
+		List<String>  displays = conf.getStringList("program.ui.WORK_DAY_I.displays");
 		TreeItem<String> displayItem = new TreeItem<String>("Displays");
 		
 		for (String display : displays) {

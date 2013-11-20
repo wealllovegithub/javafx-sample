@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.BeanUtilsBean2;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.saltations.tracker.infra.PropertyEval;
 import org.saltations.tracker.ui.masterdetail.MDRequestEditEvt;
 import org.saltations.tracker.ui.masterdetail.MDTableRefreshEvt;
@@ -102,21 +103,13 @@ public class AutoDetailForm<T> extends MigPane {
 		this.controller = controller;
 		
 		try {
-			
+
 			/*
 			 * Check that all the property names we are looking for are also in the list of known properties.  
 			 */
 			
-			@SuppressWarnings("unchecked")
-			Set<String> beanProperties = (Set<String>) BeanUtilsBean.getInstance().describe(data.exemplar()).keySet();
-			
-			Set<String> unknownProperties = Sets.difference(Sets.newHashSet(toBeDisplayed), beanProperties);
-			
-			if ( !unknownProperties.isEmpty() )
-			{
-				log.error(MessageFormat.format("Some properties that were requested to be displayed have not been found : {0}", unknownProperties));
-				
-				throw new IllegalArgumentException();
+			for (String propertyName : toBeDisplayed) {
+				Object obj = PropertyUtils.getProperty(data.exemplar(), propertyName);
 			}
 
 			/*
@@ -128,6 +121,8 @@ public class AutoDetailForm<T> extends MigPane {
 				PropertyDescriptor descriptor = BeanUtilsBean2.getInstance().getPropertyUtils().getPropertyDescriptor(data.exemplar(), propertyName);
 
 				PropertyEval eval = new PropertyEval(descriptor.getPropertyType());
+				
+				
 				
 				/*
 				 * Determine the type of the Control.
